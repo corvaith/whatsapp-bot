@@ -1,0 +1,48 @@
+name: Prettier Auto Fix
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: '0 */10 * * *'
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+    prettier:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+
+            - name: Run Prettier
+              run: npx --yes prettier@latest --write .
+
+            - name: Create Pull Request
+              id: cpr
+              uses: peter-evans/create-pull-request@v7
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  branch: chore/prettier-auto-format
+                  delete-branch: true
+                  commit-message: 'style: format code with Prettier'
+                  title: 'style: format code with Prettier'
+                  body: |
+                      This PR was generated automatically after running Prettier.
+                  labels: |
+                      formatting
+                      automated
+
+            - name: Summary
+              run: |
+                  echo "Operation: ${{ steps.cpr.outputs.pull-request-operation }}"
+                  echo "PR URL: ${{ steps.cpr.outputs.pull-request-url }}"

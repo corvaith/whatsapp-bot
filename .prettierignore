@@ -1,0 +1,8 @@
+node_modules/
+tmp/
+media/
+sessions/
+
+*.json
+*.bak
+*.lock

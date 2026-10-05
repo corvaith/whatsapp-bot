@@ -1,0 +1,12 @@
+[Unit]
+Description=llama.cpp server (Qwen2.5 1.5B Instruct, CPU)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/llama.cpp/llama-server -m /home/agentuser/bot/data/models/qwen2.5-1.5b-instruct-q4_k_m.gguf --host 127.0.0.1 --port 3109 --threads 2 --ctx-size 2048 -ngl 0
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

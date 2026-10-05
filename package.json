@@ -1,0 +1,32 @@
+{
+	"name": "whatsapp-bot",
+	"version": "1.0.0",
+	"main": "index.js",
+	"type": "module",
+	"imports": {
+		"#config/*": "./src/config/*",
+		"#core/*": "./src/core/*",
+		"#events/*": "./src/events/*",
+		"#plugins/*": "./src/plugins/*",
+		"#services/*": "./src/services/*",
+		"#storage/*": "./src/storage/*",
+		"#utils/*": "./src/utils/*",
+		"#whatsapp/*": "./src/whatsapp/*"
+	},
+	"scripts": {
+		"start": "bun --env-file=.env src/index.js",
+		"dev": "bun --watch --env-file=.env src/index.js",
+		"test": "bun test",
+		"format": "prettier --write .",
+		"format:check": "prettier --check ."
+	},
+	"keywords": ["WhatsApp Bot", "Baileys", "WhatsApp"],
+	"author": "corvaith",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"baileys": "npm:@oxidezap/baileyrs@latest",
+		"chalk": "^6.0.0",
+		"file-type": "^22.1.0"
+	}
+}
