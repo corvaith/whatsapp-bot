@@ -9,7 +9,8 @@ const tokenize = (code, language) => {
 	const keywords = new Set(
 		(
 			{
-				javascript: 'break case catch class const continue default delete do else export extends finally for function if import in instanceof let new return super switch this throw try typeof var void while yield async await null true false undefined',
+				javascript:
+					'break case catch class const continue default delete do else export extends finally for function if import in instanceof let new return super switch this throw try typeof var void while yield async await null true false undefined',
 				python: 'import from as def class return if elif else for while break continue try except finally raise with lambda pass del global and or not in is None True False async await self',
 			}[language] || ''
 		).split(' '),
@@ -139,7 +140,10 @@ export default {
 				},
 			});
 		} else if (raw.startsWith('table ')) {
-			const table = raw.slice(6).split(';').map((row) => row.split(',').map((c) => c.trim()));
+			const table = raw
+				.slice(6)
+				.split(';')
+				.map((row) => row.split(',').map((c) => c.trim()));
 			const meta = toTableRows(table);
 			title = 'Table';
 			submessages.push({ messageType: 4, tableMetadata: { rows: meta.rows } });

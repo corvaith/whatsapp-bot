@@ -40,7 +40,9 @@ const toJpegThumb = async (buffer) => {
 	const tmp = join(tmpdir(), `lc-${Date.now()}`);
 	await writeFile(tmp, buffer);
 	try {
-		await promisify(execFile)('/usr/bin/ffmpeg', ['-y', '-i', tmp, '-vf', 'scale=720:720:force_original_aspect_ratio=decrease,pad=720:720:(ow-iw)/2:(oh-ih)/2', '-q:v', '4', `${tmp}.jpg`], { timeout: 30000 });
+		await promisify(execFile)('/usr/bin/ffmpeg', ['-y', '-i', tmp, '-vf', 'scale=720:720:force_original_aspect_ratio=decrease,pad=720:720:(ow-iw)/2:(oh-ih)/2', '-q:v', '4', `${tmp}.jpg`], {
+			timeout: 30000,
+		});
 		return await readFile(`${tmp}.jpg`);
 	} catch {
 		return buffer;

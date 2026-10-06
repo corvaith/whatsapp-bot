@@ -10,7 +10,10 @@ export default {
 
 	async run(context) {
 		const { m, conn, text } = context;
-		const parts = (text || '').split('|').map((s) => s.trim()).filter(Boolean);
+		const parts = (text || '')
+			.split('|')
+			.map((s) => s.trim())
+			.filter(Boolean);
 		if (parts.length < 2) return m.reply(`Usage: ${m.prefix}pollresult <name> | <option>=<count> [| ...]`);
 		const [name, ...opts] = parts;
 		const pollVotes = [];

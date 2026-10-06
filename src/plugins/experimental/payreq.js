@@ -16,13 +16,17 @@ export default {
 			return m.reply(`Usage: ${m.prefix}payreq <amount IDR> [note]`);
 		}
 		const note = noteParts.join(' ') || 'Payment request';
-		await conn.relayMessage(m.chat, {
-			requestPaymentMessage: {
-				currencyCodeIso4217: 'IDR',
-				amount1000: amount * 1000,
-				requestFrom: m.chat,
-				noteMessage: { extendedTextMessage: { text: note } },
+		await conn.relayMessage(
+			m.chat,
+			{
+				requestPaymentMessage: {
+					currencyCodeIso4217: 'IDR',
+					amount1000: amount * 1000,
+					requestFrom: m.chat,
+					noteMessage: { extendedTextMessage: { text: note } },
+				},
 			},
-		}, {});
+			{},
+		);
 	},
 };

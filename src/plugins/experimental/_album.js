@@ -51,13 +51,7 @@ export async function sendAlbum(conn, jid, items, expiration = 0) {
 
 	// Upload all media concurrently, then relay children back-to-back.
 	const built = await Promise.all(
-		items.map((item) =>
-			generateWAMessage(
-				jid,
-				{ [item.mediaType]: item.buffer, ...(item.caption ? { caption: item.caption } : {}) },
-				{ upload: conn.waUploadToServer },
-			),
-		),
+		items.map((item) => generateWAMessage(jid, { [item.mediaType]: item.buffer, ...(item.caption ? { caption: item.caption } : {}) }, { upload: conn.waUploadToServer })),
 	);
 
 	for (const img of built) {

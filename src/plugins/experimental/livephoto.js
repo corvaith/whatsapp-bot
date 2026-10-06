@@ -20,9 +20,7 @@ export default {
 		const source = m.isQuoted ? m.quoted : m;
 		const mime = source?.msg?.mimetype || '';
 		if (!source?.isMedia || !mime.startsWith('video/')) {
-			return m.reply(
-				`How to use:\n1. Attach a short video (≤6s)\n2. Put ${m.prefix}livephoto as the caption\n\nOr reply to an existing video with ${m.prefix}livephoto.`,
-			);
+			return m.reply(`How to use:\n1. Attach a short video (≤6s)\n2. Put ${m.prefix}livephoto as the caption\n\nOr reply to an existing video with ${m.prefix}livephoto.`);
 		}
 		const videoBuffer = await downloadMedia();
 

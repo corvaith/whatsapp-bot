@@ -8,8 +8,7 @@ let active = false;
 let count = 0;
 let handler = null;
 
-const flatten = (obj) =>
-	JSON.parse(JSON.stringify(obj, (k, v) => (v && v.type === 'Buffer' ? Buffer.from(v.data).toString('base64').slice(0, 16) + '…' : v)));
+const flatten = (obj) => JSON.parse(JSON.stringify(obj, (k, v) => (v && v.type === 'Buffer' ? Buffer.from(v.data).toString('base64').slice(0, 16) + '…' : v)));
 
 export default {
 	commands: ['albumdebug'],

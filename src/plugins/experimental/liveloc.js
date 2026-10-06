@@ -20,16 +20,20 @@ export default {
 		if (loc.status !== 'success' || !Number.isFinite(loc.lat) || !Number.isFinite(loc.lon)) {
 			return m.reply('Failed to detect location.');
 		}
-		await conn.relayMessage(m.chat, {
-			liveLocationMessage: {
-				degreesLatitude: loc.lat,
-				degreesLongitude: loc.lon,
-				accuracyInMeters: 1000,
-				speedInMps: 0,
-				sequenceNumber: 1,
-				timeOffset: 0,
-				caption: (text || '').trim() || `${loc.city}, ${loc.regionName}, ${loc.country}`,
+		await conn.relayMessage(
+			m.chat,
+			{
+				liveLocationMessage: {
+					degreesLatitude: loc.lat,
+					degreesLongitude: loc.lon,
+					accuracyInMeters: 1000,
+					speedInMps: 0,
+					sequenceNumber: 1,
+					timeOffset: 0,
+					caption: (text || '').trim() || `${loc.city}, ${loc.regionName}, ${loc.country}`,
+				},
 			},
-		}, {});
+			{},
+		);
 	},
 };
