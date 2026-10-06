@@ -5,7 +5,7 @@ import { runImageCommand, resolveModel } from './_shared.js';
  * Upscale an image 4x via the Pixelyte API.
  */
 export default {
-	commands: ['upscale'],
+	commands: ['upscale', 'hd', 'hdr'],
 	category: 'media',
 	description: 'Upscale an image.',
 	usage: '{prefix}upscale [model]',

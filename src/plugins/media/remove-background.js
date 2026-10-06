@@ -5,7 +5,7 @@ import { runImageCommand, resolveModel } from './_shared.js';
  * Remove an image background via the Pixelyte API.
  */
 export default {
-	commands: ['removebg', 'remove-bg', 'hd'],
+	commands: ['removebg', 'remove-bg'],
 	category: 'media',
 	description: 'Remove an image background.',
 	usage: '{prefix}removebg [model]',
