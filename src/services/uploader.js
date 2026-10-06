@@ -35,6 +35,30 @@ export async function uguu(buffer, filename) {
 }
 
 /**
+ * direct.lunee.lol (LuneTool) - direct upload endpoint, no 100MB Cloudflare
+ * limit. Anonymous works; X-API-Key (from lunee.lol) raises limits when
+ * supplied via LUNEE_API_KEY. JSON response: {url (viewer), download_url
+ * (raw file), short_url}. We return download_url (direct file link).
+ */
+export async function lunee(buffer, filename) {
+	const { blob, name } = await prepare(buffer, filename);
+	const form = new FormData();
+	form.append('file', blob, name);
+	const headers = {};
+	if (process.env.LUNEE_API_KEY) headers['X-API-Key'] = process.env.LUNEE_API_KEY;
+	const res = await fetch('https://direct.lunee.lol/api/upload', {
+		method: 'POST',
+		body: form,
+		headers,
+		signal: AbortSignal.timeout(180000),
+	});
+	const json = await asJson(res);
+	const url = json?.download_url || json?.url;
+	if (!json?.success || !url) throw new Error(`Lunee: ${JSON.stringify(json).slice(0, 200)}`);
+	return url;
+}
+
+/**
  * tmpfiles.org (temporary, 1h). The API gives an HTML page URL; the raw file
  * link (with a signed token) only appears inside that page, so we fetch the
  * page and extract the direct /dl/<token>/<name> URL.
@@ -53,10 +77,10 @@ export async function tmpfiles(buffer, filename) {
 	return raw;
 }
 
-export const providers = { uguu, tmpfiles };
+export const providers = { uguu, tmpfiles, lunee };
 
 /** Providers tried in order when no provider is named; uguu is the default. */
-export const defaultChain = ['uguu', 'tmpfiles'];
+export const defaultChain = ['uguu', 'tmpfiles', 'lunee'];
 
 /**
  * Upload using a named provider. Without a provider, tries the default chain
