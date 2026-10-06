@@ -1,5 +1,7 @@
-import { test, expect } from 'bun:test';
+import { test, expect, beforeEach } from 'bun:test';
 import { parseCommand, getPrefixes, validatePrefix, setRuntimePrefixes, DEFAULT_PREFIXES } from '../../src/core/prefix.js';
+
+beforeEach(() => setRuntimePrefixes(null));
 
 test('default: . ! / all match', () => {
 	const a = parseCommand('.ping');

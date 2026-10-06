@@ -18,10 +18,12 @@ WhatsApp bot built on Bun and Baileys with a plugin-based architecture.
 ## Installation
 
 ```bash
-bun install
-cp .env.example .env
-# edit .env with your numbers
+./install.sh            # deps + .env setup
+./install.sh --service  # also install & start the systemd service
 ```
+
+The script installs system packages (ffmpeg, python3-pil), Bun if missing,
+project dependencies, and asks for your pairing/owner numbers on first run.
 
 ## Configuration
 
@@ -140,10 +142,13 @@ sqlite3 data/database/store.db "DELETE FROM settings WHERE key='prefix.global'"
 
 - `fetch <url> [options]` — HTTP requests via native `fetch` (aliases: `get`, `http`, `curl`). Options: `--method/-X`, `--header/-H`, `--data/-d`, `--json`, `--head/-I`, `--timeout`. Replies a URL or `curl` command to fetch it instead. Non-owner requests are SSRF-guarded (no private/loopback targets) and rate-limited (3 per 8s); responses are capped at 20 MB.
 - `getpp [@mention|reply|me|<number>|group]` — profile picture fetch, includes WA Business info when available (aliases: `pp`, `profilepic`, `avatar`).
+- `tourl [provider]` — upload media to a file host, get a direct URL (alias: `upload`). Providers: uguu (default), tmpfiles — both return raw direct media links. Max 100 MB.
 
 ## Media
 
-`convert <format> [url]` — media conversion via the Pixelyte API (no local ffmpeg). Reply to media or pass a URL. Limits: 50 MB input, 64 MB output, 180s timeout, max 2 concurrent conversions, 1 per 10s per sender. GIF results are sent as documents.
+`convert <format> [url]` — media conversion via the Pixelyte API (no local ffmpeg). Formats: mp3, gif, webm, mp4 (image conversion is not supported by the API). Reply to media or pass a URL. Limits: 50 MB input, 64 MB output, 180s timeout, max 2 concurrent conversions, 1 per 10s per sender. GIF results are sent as documents.
+
+`sticker` (aliases: `s`, `stiker`) — create a sticker from a replied/sent image or video (max 8 MB), a replied sticker (repack), a single emoji (animated Noto emoji), or a URL. Local ffmpeg crop/scale to 512×512 WebP with EXIF pack/author metadata. Options: `-wm pack|author` for custom watermark; pack defaults to "Katsumi Style", author to the sender's name.
 
 ## Production Deployment
 

@@ -38,6 +38,7 @@ export default {
 			const url = await conn.profilePictureUrl(jid, 'image');
 			if (!url) throw new Error('not found');
 			await m.reply({ image: { url }, caption: `Profile picture of ${label}`, mentions });
+			// Business info is best-effort; never fails the picture reply.
 			try {
 				const biz = await conn.getBusinessProfile(jid);
 				if (biz && typeof biz === 'object' && Object.keys(biz).length) {

@@ -39,7 +39,6 @@ export async function runImageCommand({ m, args, resolve, usage, react, run, cap
 		return m.reply(`Image is too large (${(buffer.length / 1048576).toFixed(1)} MB); the limit is 10 MB.`);
 	}
 
-	await m.react(react);
 	try {
 		const { buffer: result, meta } = await run(buffer, pick.value);
 		await m.reply({ image: result, caption: caption(meta) });

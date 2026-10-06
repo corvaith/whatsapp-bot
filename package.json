@@ -27,6 +27,8 @@
 	"dependencies": {
 		"baileys": "npm:@oxidezap/baileyrs@latest",
 		"chalk": "^6.0.0",
-		"file-type": "^22.1.0"
+		"fflate": "^0.8.3",
+		"file-type": "^22.1.0",
+		"node-webpmux": "^3.2.1"
 	}
 }

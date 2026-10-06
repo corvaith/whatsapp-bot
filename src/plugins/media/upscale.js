@@ -21,7 +21,7 @@ export default {
 				'• *{prefix}upscale* — fast (~2s)\n' +
 				'• *{prefix}upscale x4plus* — maximum detail (~25s)\n' +
 				'• *{prefix}upscale swinir* — smooth, natural result',
-			react: '⏳',
+			react: '🔎',
 			label: 'Upscale',
 			run: (buffer, model) => upscale(buffer, { model, mime: m.msg?.mimetype }),
 			caption: (meta) =>

@@ -10,10 +10,10 @@ export default {
 	category: 'general',
 	description: 'Show bot and server information.',
 	usage: '{prefix}info',
+	react: '🍌',
 
 	async run({ m }) {
 		const startedAt = Date.now();
-		await m.react('🍌');
 
 		const totalMem = os.totalmem();
 		const usedMem = totalMem - os.freemem();

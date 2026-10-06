@@ -164,7 +164,6 @@ export default {
 		}
 		if (body !== undefined && !headers['content-type']) headers['content-type'] = 'application/json';
 
-		await m.react('⏳');
 		try {
 			const res = await request({
 				url: target,

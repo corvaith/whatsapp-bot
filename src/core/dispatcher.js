@@ -22,6 +22,7 @@ export async function handle(conn, m, registry) {
 			const access = plugin.access || 'public';
 			if (access === 'owner' && !context.isOwner) return;
 			conn.logger?.info(`Command ${context.prefix}${context.command} executed by ${m.sender}`);
+			if (plugin.react) await m.react(plugin.react).catch(() => {});
 			await plugin.run(context);
 		}
 	}

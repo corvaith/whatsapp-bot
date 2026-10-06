@@ -9,6 +9,7 @@ export default {
 	category: 'media',
 	description: 'Extract text from an image.',
 	usage: '{prefix}ocr [language]',
+	react: '📄',
 
 	async run({ m, args, prefix }) {
 		const language = args[0]?.toLowerCase();
@@ -26,7 +27,6 @@ export default {
 			);
 		}
 
-		await m.react('🔍');
 		const startedAt = Date.now();
 		try {
 			const data = await ocr(buffer, { language, mime: m.msg?.mimetype });

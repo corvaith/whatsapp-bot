@@ -5,14 +5,17 @@ import { getMediaBuffer } from './_shared.js';
 import { formatSize } from '#utils/format.js';
 import { MAX_CONVERT_INPUT_BYTES, MAX_CONVERT_OUTPUT_BYTES, CONVERT_TIMEOUT_MS } from '#config/constants.js';
 
-const URL_RE = /https?:\/\/[^\s<>"')\]]+/i;
+import { URL_RE } from '../tools/_tools.js';
+
+// API allowlist (probed): image/audio-only inputs are rejected by the API.
+const CONVERT_FORMATS = ['mp3', 'gif', 'webm', 'mp4'];
 
 const HELP = (prefix) =>
 	`*${prefix}convert <format>* — reply to media, or send media with this caption\n` +
 	`*${prefix}convert <format> <url>* — convert from a URL\n` +
 	`*${prefix}convert* — show this help\n\n` +
-	'Examples: `convert mp3` (reply to a video), `convert gif` (reply to an mp4), `convert png https://host/foto.webp`\n\n' +
-	'Supported formats follow the API allowlist; image conversion is currently not enabled on the API.';
+	`Examples: \`convert mp3\` (reply to a video), \`convert gif\` (reply to an mp4)\n\n` +
+	`Supported formats: ${CONVERT_FORMATS.join(', ')}. Image conversion is not supported by the API.`;
 
 /** Max 2 concurrent conversions; 1 request / 10s cooldown per sender (owner exempt). */
 let active = 0;
@@ -23,7 +26,7 @@ function normalizeFormat(input) {
 		.toLowerCase()
 		.replace(/^\.+/, '')
 		.trim();
-	return /^[a-z0-9]{1,10}$/.test(fmt) ? fmt : null;
+	return CONVERT_FORMATS.includes(fmt) ? fmt : null;
 }
 
 async function uploadName(source) {
@@ -38,7 +41,7 @@ export default {
 	category: 'media',
 	description: 'Convert media between formats via the Pixelyte API.',
 	usage: '{prefix}convert <format> [url]\n{prefix}convert (reply to media)',
-	react: '⏳',
+	react: '🔄',
 
 	async run({ m, args, prefix, isOwner }) {
 		const format = normalizeFormat(args[0]);
@@ -66,7 +69,6 @@ export default {
 		}
 		if (active >= 2) return m.reply('Server is busy converting other media; try again in a moment.');
 		active++;
-		await m.react('⏳');
 		const startedAt = Date.now();
 		try {
 			const input = url ? { url } : source.buffer;

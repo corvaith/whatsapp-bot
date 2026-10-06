@@ -6,12 +6,12 @@ export default {
 	category: 'experimental',
 	description: 'Ask the local AI model.',
 	usage: '{prefix}llm <question>',
+	react: '🤔',
 
 	async run({ m, text }) {
 		const prompt = (text || '').trim();
 		if (!prompt) return m.reply(`Usage: ${m.prefix}llm <question>`);
 
-		await m.react('🤔');
 		try {
 			const res = await fetch('http://127.0.0.1:3109/v1/chat/completions', {
 				method: 'POST',
