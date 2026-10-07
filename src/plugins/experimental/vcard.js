@@ -15,12 +15,7 @@ export default {
 		}
 		const clean = number.replace(/[^\d]/g, '');
 		const name = nameParts.join(' ') || clean;
-		const vcard =
-			'BEGIN:VCARD\n' +
-			'VERSION:3.0\n' +
-			`FN:${name}\n` +
-			`TEL;type=CELL;type=VOICE;waid=${clean}:+${clean}\n` +
-			'END:VCARD';
+		const vcard = 'BEGIN:VCARD\n' + 'VERSION:3.0\n' + `FN:${name}\n` + `TEL;type=CELL;type=VOICE;waid=${clean}:+${clean}\n` + 'END:VCARD';
 		await m.reply({ contacts: { displayName: name, contacts: [{ vcard }] } });
 	},
 };

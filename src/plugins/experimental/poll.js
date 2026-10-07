@@ -9,7 +9,10 @@ export default {
 
 	async run(context) {
 		const { m, text } = context;
-		const parts = (text || '').split('|').map((s) => s.trim()).filter(Boolean);
+		const parts = (text || '')
+			.split('|')
+			.map((s) => s.trim())
+			.filter(Boolean);
 		if (parts.length < 3) {
 			return m.reply(`Usage: ${m.prefix}poll Question | Option 1 | Option 2 [| more options]`);
 		}

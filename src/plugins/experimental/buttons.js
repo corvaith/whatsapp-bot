@@ -12,7 +12,10 @@ export default {
 
 	async run(context) {
 		const { m, conn, text } = context;
-		const parts = (text || '').split('|').map((s) => s.trim()).filter(Boolean);
+		const parts = (text || '')
+			.split('|')
+			.map((s) => s.trim())
+			.filter(Boolean);
 		if (parts.length < 2 || parts.length > 4) {
 			return m.reply(`Usage: ${m.prefix}buttons <text> | <button1> | <button2> [| <button3>]`);
 		}

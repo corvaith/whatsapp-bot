@@ -17,7 +17,10 @@ export default {
 	async run(context) {
 		const { m, conn, text } = context;
 		const [limitRaw, title, labelsRaw] = (text || '').split('|').map((p) => p.trim());
-		const labels = (labelsRaw || '').split(/[;,]/).map((s) => s.trim()).filter(Boolean);
+		const labels = (labelsRaw || '')
+			.split(/[;,]/)
+			.map((s) => s.trim())
+			.filter(Boolean);
 		if (!labels.length) {
 			return m.reply(`Usage: ${m.prefix}bottomsheet <limit> | <title> | <button1;button2;...>`);
 		}
@@ -64,9 +67,7 @@ export default {
 					{
 						tag: 'biz',
 						attrs: {},
-						content: [
-							{ tag: 'interactive', attrs: { type: 'native_flow', v: '1' }, content: [{ tag: 'native_flow', attrs: { v: '9', name: 'mixed' } }] },
-						],
+						content: [{ tag: 'interactive', attrs: { type: 'native_flow', v: '1' }, content: [{ tag: 'native_flow', attrs: { v: '9', name: 'mixed' } }] }],
 					},
 				],
 			},

@@ -36,11 +36,7 @@ const buildPaymentConfig = (amount, description, beneficiary, institutions) => (
 		order_type: 'PAYMENT_REQUEST',
 		items: [{ name: description, amount: amountParts(amount), quantity: 1 }],
 	},
-	payment_settings: institutions.map((ins) =>
-		WALLETS.includes(ins)
-			? account(ins, beneficiary, 'digital_wallet', 'phone_number')
-			: account(ins, beneficiary, 'bank_account', 'id_account_number'),
-	),
+	payment_settings: institutions.map((ins) => (WALLETS.includes(ins) ? account(ins, beneficiary, 'digital_wallet', 'phone_number') : account(ins, beneficiary, 'bank_account', 'id_account_number'))),
 	additional_note: description,
 	native_payment_methods: [],
 	share_payment_status: false,
@@ -61,13 +57,16 @@ export default {
 		const [amountRaw, description, beneficiary, banksRaw] = (text || '').split('|').map((p) => p.trim());
 		const amount = Number.parseFloat((amountRaw || '').replace(/[^\d.]/g, ''));
 		if (!Number.isFinite(amount) || amount <= 0) {
-			return m.reply(
-				`Usage: ${m.prefix}payment <amount> | <description> | <beneficiary> | [banks;separated]\nDefault banks: ${DEFAULT_BANKS.join(', ')}`,
-			);
+			return m.reply(`Usage: ${m.prefix}payment <amount> | <description> | <beneficiary> | [banks;separated]\nDefault banks: ${DEFAULT_BANKS.join(', ')}`);
 		}
 		const desc = description || 'Payment';
 		const who = beneficiary || 'Merchant';
-		const institutions = banksRaw ? banksRaw.split(/[;,]/).map((s) => s.trim()).filter(Boolean) : DEFAULT_BANKS;
+		const institutions = banksRaw
+			? banksRaw
+					.split(/[;,]/)
+					.map((s) => s.trim())
+					.filter(Boolean)
+			: DEFAULT_BANKS;
 
 		const im = proto.Message.InteractiveMessage.create({
 			header: proto.Message.InteractiveMessage.Header.create({ title: desc, subtitle: who }),

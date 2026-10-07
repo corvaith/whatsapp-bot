@@ -57,7 +57,7 @@ const isAnimatedWebP = (b) => {
 	while (o < b.length - 8) {
 		const tag = b.toString('ascii', o, o + 4);
 		const size = b.readUInt32LE(o + 4);
-		if (tag === 'VP8X' && (b[o + 8] & 0x02)) return true;
+		if (tag === 'VP8X' && b[o + 8] & 0x02) return true;
 		if (tag === 'ANIM' || tag === 'ANMF') return true;
 		o += 8 + size + (size % 2);
 	}
@@ -158,8 +158,7 @@ export async function sendStickerPack(conn, jid, opts) {
 			thumbnailWidth: 252,
 			imageDataHash: createHash('sha256').update(thumb).digest('base64'),
 		});
-	} catch {
-	}
+	} catch {}
 
 	const { generateWAMessageFromContent } = await import('baileys');
 	const fullMsg = generateWAMessageFromContent(jid, { stickerPackMessage: message }, { messageId: generateMessageIDV2(conn.user?.id) });

@@ -21,9 +21,7 @@ export default {
 		const source = m.isQuoted ? m.quoted : m;
 		const mime = source?.msg?.mimetype || '';
 		if (!source?.isMedia || !mime.startsWith('video/')) {
-			return m.reply(
-				`How to use:\n1. Attach a short video (\u22646s)\n2. Put ${m.prefix}livephoto as the caption\n\nOr reply to an existing video with ${m.prefix}livephoto.`,
-			);
+			return m.reply(`How to use:\n1. Attach a short video (\u22646s)\n2. Put ${m.prefix}livephoto as the caption\n\nOr reply to an existing video with ${m.prefix}livephoto.`);
 		}
 		const videoBuffer = await downloadMedia();
 
@@ -45,7 +43,9 @@ export default {
 
 			// video metadata: seconds/width/height help clients treat the child as motion
 			const probe = await new Promise((resolve) => {
-				execFile('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height,duration', '-of', 'json', input], { timeout: 15000 }, (err, stdout) => resolve(err ? null : stdout));
+				execFile('ffprobe', ['-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height,duration', '-of', 'json', input], { timeout: 15000 }, (err, stdout) =>
+					resolve(err ? null : stdout),
+				);
 			});
 			let seconds;
 			let width;

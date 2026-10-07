@@ -24,10 +24,7 @@ export default {
 			return m.reply('Attach or reply an image for the product photo.\nUsage: .catalog <title>');
 		}
 
-		const { imageMessage } = await prepareWAMessageMedia(
-			{ image: imgBuf },
-			{ upload: conn.waUploadToServer },
-		);
+		const { imageMessage } = await prepareWAMessageMedia({ image: imgBuf }, { upload: conn.waUploadToServer });
 
 		const productId = `300${randomBytes(7).toString('hex')}`.slice(0, 17);
 		await conn.relayMessage(
