@@ -1,21 +1,6 @@
 /**
  * Album helper: send an albumMessage parent + associated media children.
- * Shared by .album and .stickerpack.
- *
- * Wire shape captured 1:1 from a REAL album sent by an official WhatsApp
- * client (owner capture via .albumdebug):
- * - parent: albumMessage {expectedImageCount, expectedVideoCount} + a
- *   messageContextInfo.messageSecret at the Message level.
- * - child: normal media message whose Message-level messageContextInfo holds
- *   BOTH messageSecret AND messageAssociation {MEDIA_ALBUM, parentMessageKey}.
- * - child contextInfo carries the chat's ephemeral settings.
- * - all media uploads run in PARALLEL, relays back-to-back, so the children
- *   arrive within the client's grouping window (real clients send instantly).
- *
- * CRITICAL (verified via wire diff): the child association's parentMessageKey
- * must carry the REAL parent id (a real album shows `A544D142…`, ours sent
- * `id: ""` and the client refused to group). Snapshot the key BEFORE relaying
- * and refuse to send if the id is missing.
+ * Wire shape captured 1:1 from a real official-client album (see .albumdebug).
  */
 import crypto from 'crypto';
 import { generateMessageIDV2, generateWAMessage, generateWAMessageFromContent, proto } from 'baileys';
@@ -49,7 +34,6 @@ export async function sendAlbum(conn, jid, items, expiration = 0) {
 	const parentKey = { remoteJid: jid, fromMe: true, id: parentId };
 	await conn.relayMessage(jid, parent.message, { messageId: parentKey.id });
 
-	// Upload all media concurrently, then relay children back-to-back.
 	const built = await Promise.all(
 		items.map((item) =>
 			generateWAMessage(

@@ -35,7 +35,6 @@ export default {
 				const img = await request({ url: r.url, timeoutMs: 30000, maxBytes: 15 * 1024 * 1024 });
 				if (img.status === 200) stickers.push({ data: img.buffer, emojis: ['✨'] });
 			} catch {
-				// skip failed downloads
 			}
 		}
 		if (!stickers.length) return m.reply('All sticker downloads failed, try again.');

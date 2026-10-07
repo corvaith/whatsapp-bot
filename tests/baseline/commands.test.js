@@ -33,7 +33,7 @@ test('.help: registry-driven, grouped, owner commands hidden for non-owner', asy
 	expect(ownerText).toContain('ꕥ Media');
 	expect(ownerText).toContain('.ocr');
 	expect(ownerText).toContain('.removebg');
-	expect(ownerText).toContain('_(alias: remove-bg, hd)_');
+	expect(ownerText).toContain('_(alias: remove-bg)_');
 	expect(ownerText).toContain('.rvo');
 	expect(ownerText).toContain('.upscale');
 	expect(ownerText).toContain('ꕥ Owner');

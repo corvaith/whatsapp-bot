@@ -1,11 +1,6 @@
 /**
- * .payment — "review_and_pay" order card (native WhatsApp payment sheet) with
- * a selectable list of bank/e-wallet accounts. Shape taken verbatim from a
- * working hand-relayed payload (interactiveMessage > nativeFlowMessage >
- * review_and_pay button + biz node native_flow_name=order_details).
- * Amounts use value/offset: value 1900000000 with offset 100 = 19,000,000.00.
- *
- * .payment <amount> | <description> | <beneficiary> | <bank1;bank2;...>
+ * .payment — "review_and_pay" order card with a selectable list of bank/e-wallet
+ * accounts, shape taken verbatim from a working hand-relayed payload.
  */
 import { generateMessageIDV2, proto } from 'baileys';
 

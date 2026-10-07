@@ -1,9 +1,7 @@
 import { renderUsage } from '#utils/format.js';
 
 /**
- * Show available commands, generated from the plugin registry.
- * Mirrors the Katsumi help style: overview, per-command detail, per-category
- * listing, and a thumbnail card reply.
+ * Show available commands, generated from the plugin registry (Katsumi style).
  */
 export default {
 	commands: ['help', 'menu'],
@@ -42,7 +40,6 @@ export default {
 
 			response += `\nꕥ _Tip: \`${prefix}help [command or category]\` for details._`;
 		} else {
-			// Find a matching command across all visible categories.
 			let entry = null;
 			for (const category of categories) {
 				const hit = groups.get(category).find(({ name, aliases }) => name === query || aliases.includes(query));

@@ -1,11 +1,6 @@
 /**
- * .linkcard — forged link preview (title/description/thumbnail inline in the
- * extendedTextMessage, like WhatsApp Web itself does). Renders identically on
- * regular WhatsApp because the client trusts the message's own preview fields.
- * Recipe from an inspected working bot: matchedText + title + description +
- * previewType + jpegThumbnail at the TOP LEVEL of extendedTextMessage.
- *
- * .linkcard Title | Description | https://url
+ * .linkcard — forged link preview: title/description/thumbnail sent inline in
+ * the extendedTextMessage, the way WhatsApp Web does it.
  */
 import { request } from '#utils/http.js';
 import { proto, generateWAMessageFromContent, generateMessageIDV2 } from 'baileys';
@@ -27,8 +22,7 @@ async function fetchOgImage(url) {
 		const imgRes = await request({ url: imgUrl, timeoutMs: 15000, maxBytes: 3 * 1024 * 1024 });
 		if (imgRes.status === 200) return imgRes.buffer;
 	} catch {
-		// thumbnail optional
-	}
+		}
 }
 
 const toJpegThumb = async (buffer) => {

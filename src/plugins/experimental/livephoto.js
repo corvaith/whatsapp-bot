@@ -1,11 +1,6 @@
 /**
- * Send a WhatsApp Live Photo (motion photo): paired image + short video.
- * Recipe matched against elynn-baileys generateWAMotionPhotoMessages (the
- * reference implementation): parent image with pairedMediaType
- * MOTION_PHOTO_PARENT, child video with MOTION_PHOTO_CHILD +
- * motionPhotoPresentationOffsetMs, association MOTION_PHOTO, 250ms relay gap.
- *
- * Attach a video with .livephoto as caption (or reply to one).
+ * Send a WhatsApp Live Photo (motion photo): paired image + short video,
+ * recipe matched against elynn-baileys generateWAMotionPhotoMessages.
  */
 import { execFile } from 'child_process';
 import { generateMessageIDV2, prepareWAMessageMedia, proto } from 'baileys';

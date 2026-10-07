@@ -1,11 +1,6 @@
 /**
- * .aicard — AIRich "compact entity" card (Meta AI style social/entity lookup
- * card). Shape taken verbatim from a working hand-relayed payload:
- * botForwardedMessage > richResponseMessage > unifiedResponse.data (base64
- * JSON) with a GenAICompactEntityPrimitive in an ActionRow layout, a divider,
- * and markdown text with a GenAISocialEntityItem inline entity.
- *
- * .aicard <title> | <subtitle> | <image-url> | <entity-url> | <text>
+ * .aicard — Meta AI style entity card (AIRich compact entity primitive),
+ * shape taken verbatim from a working hand-relayed payload.
  */
 import crypto from 'crypto';
 import { generateMessageIDV2, proto } from 'baileys';

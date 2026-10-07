@@ -1,8 +1,6 @@
 /**
- * Temporary album wire-shape debugging (owner only).
- * .albumdebug on  -> dump the next 10 incoming raw messages to /tmp/album-dump.json
- *                    AND dump the next outgoing album relays (ours) to /tmp/album-sent.json
- * .albumdebug off -> stop
+ * Temporary album wire-shape debugging: dumps raw incoming messages and our
+ * outgoing album relays to /tmp for wire diffs (owner only).
  */
 let active = false;
 let count = 0;

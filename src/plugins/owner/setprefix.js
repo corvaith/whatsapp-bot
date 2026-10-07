@@ -5,7 +5,6 @@ const GLOBAL_KEY = 'prefix.global';
 
 /**
  * Owner: replace the global prefix set (persisted in store.db).
- * Usage: setprefix <p1> [p2...] [--chat] | resetprefix
  */
 export default {
 	commands: ['setprefix', 'resetprefix'],

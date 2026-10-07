@@ -1,10 +1,6 @@
 /**
- * .allbuttons - demo of every native-flow button type this client accepts.
- * Covers reply / link / webview / copy / call / reminder / location / address /
- * catalog (mpm) / payment transaction / greeting-catalog, plus every
- * single_select icon variant. New shapes ported from a working hand-relayed
- * payload (RyuuBotz/XezBOT). open_webview uses the in_app_webview link object;
- * business buttons included even though their targets are demo IDs.
+ * .allbuttons — demo of every native-flow button type this client accepts;
+ * newer shapes ported from working hand-relayed payloads (RyuuBotz/XezBOT).
  */
 import { generateMessageIDV2, proto } from 'baileys';
 

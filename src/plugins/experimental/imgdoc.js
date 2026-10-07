@@ -1,10 +1,6 @@
 /**
- * .imgdoc — send any file as a document whose thumbnail shows an image
- * (the classic "document with picture preview" trick: jpegThumbnail +
- * an image mimetype makes some clients render the picture in the bubble).
- *
- * .imgdoc (reply to an image)  — sends the image as document w/ thumb
- * .imgdoc <caption>            — with caption
+ * .imgdoc — document with picture preview: jpegThumbnail + an image mimetype
+ * makes some clients render the picture in the document bubble.
  */
 import { getMediaBuffer } from '#plugins/media/_shared.js';
 
@@ -23,7 +19,6 @@ export default {
 		}
 		const { buffer, mime } = media;
 
-		// 150x150 jpeg thumbnail, same as the katsumi-style menu trick
 		const { execFile } = await import('child_process');
 		const { promisify } = await import('util');
 		const { writeFile, readFile, unlink } = await import('fs/promises');

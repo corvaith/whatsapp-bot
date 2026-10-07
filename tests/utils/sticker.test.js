@@ -1,5 +1,5 @@
 import { test, expect } from 'bun:test';
-import { createSticker, isAnimated, injectExif, buildExif } from '../../src/utils/sticker.js';
+import { createSticker, isAnimated, writeExifWebp, buildExif } from '../../src/utils/sticker.js';
 import { execFileSync } from 'node:child_process';
 import { uguu, tmpfiles, upload } from '../../src/services/uploader.js';
 
@@ -42,7 +42,7 @@ test('createSticker: gif treated as animated via isAnimated', () => {
 	expect(isAnimated(Buffer.from('89504e470d0a1a0a0000000d49484452', 'hex'), 'image/png')).toBe(false);
 });
 
-test('createSticker: animated webp → Pillow re-encode keeps animation', async () => {
+test('createSticker: animated webp passes through with animation intact', async () => {
 	execFileSync('ffmpeg', ['-y', '-f', 'lavfi', '-i', 'testsrc=size=300x200:rate=15', '-t', '1', '-c:v', 'libwebp', '-loop', '0', '/tmp/skanim.webp'], { stdio: 'ignore' });
 	const { readFile, writeFile } = await import('node:fs/promises');
 	const webp = await readFile('/tmp/skanim.webp');
@@ -56,7 +56,7 @@ test('injectExif: VP8X first, EXIF last, RIFF size correct, alpha/anim flags int
 	execFileSync('ffmpeg', ['-y', '-f', 'lavfi', '-i', 'testsrc=size=300x200:rate=10', '-t', '1', '-c:v', 'libwebp', '-loop', '0', '/tmp/skchunk.webp'], { stdio: 'ignore' });
 	const { readFile, writeFile } = await import('node:fs/promises');
 	const webp = await readFile('/tmp/skchunk.webp');
-	const out = injectExif(webp, buildExif('PK', 'AU'));
+	const out = await writeExifWebp(webp, { pack: 'PK', author: 'AU' });
 	expect(out.readUInt32LE(4)).toBe(out.length - 8);
 	await writeFile('/tmp/skchunk-out.webp', out);
 	const chunks = execFileSync('python3', [
@@ -68,8 +68,8 @@ test('injectExif: VP8X first, EXIF last, RIFF size correct, alpha/anim flags int
 	expect(chunks.startsWith('VP8X')).toBe(true);
 	expect(chunks.endsWith('EXIF')).toBe(true);
 	const flags = execFileSync('python3', ['-c', "b=open('/tmp/skchunk-out.webp','rb').read(); print(b[20])"]).toString().trim();
-	expect(Number(flags) & 0x02).toBeTruthy();
-	expect(Number(flags) & 0x10).toBeTruthy();
+	expect(Number(flags) & 0x02).toBeTruthy(); // animation
+	expect(Number(flags) & 0x08).toBeTruthy(); // exif declared
 	const [frames] = frameInfo('/tmp/skchunk-out.webp');
 	expect(Number(frames)).toBeGreaterThan(1);
 }, 60000);

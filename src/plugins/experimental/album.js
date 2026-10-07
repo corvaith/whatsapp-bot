@@ -44,7 +44,6 @@ export default {
 				const buffer = await downloadImage(url);
 				items.push({ buffer, mediaType: url.endsWith('.gif') ? 'video' : 'image' });
 			} catch {
-				// skip failed download
 			}
 		}
 		if (!items.length) return m.reply('All image downloads failed, try again.');

@@ -1,16 +1,6 @@
 /**
- * Helper: build + send a REAL WhatsApp StickerPackMessage (USER_CREATED).
- *
- * Recipe (verified against Khaerul0i/itsliaaa helper + InfiniteAPI):
- * 1. each sticker -> webp 512, <= 1MB, hashed file name
- * 2. tray icon (cover) -> webp 512, same zip
- * 3. zip all (store level 0) -> upload as mediaType 'sticker-pack'
- *    (requires the media-type.js + Defaults node_modules patch — the rust
- *    bridge itself natively supports /mms/sticker-pack)
- * 4. thumbnail 252 jpeg -> upload as 'thumbnail-sticker-pack'
- * 5. relay StickerPackMessage {name, publisher, stickers[], tray, hashes}
- *
- * WebP conversion uses the bot's ffmpeg sticker pipeline (no sharp on VPS).
+ * Helper: build + send a REAL WhatsApp StickerPackMessage (USER_CREATED):
+ * stickers + tray zipped (store level 0) and uploaded as 'sticker-pack' media.
  */
 import { createHash, createCipheriv, createHmac, hkdfSync, randomBytes } from 'crypto';
 import { tmpdir } from 'os';
@@ -25,9 +15,9 @@ const execFile = promisify(execFileCb);
 
 /**
  * Encrypt a buffer the upstream Baileys way (AES-256-CBC + HMAC-SHA256 trunc 10),
- * with a custom HKDF info, then upload through the bridge's encrypted-stream
- * uploader (the wasm upload enum lacks 'sticker-pack', but its decrypt side has
- * the Sticker Pack keys — content type, not transport type, decides crypto).
+ * with a custom HKDF info. The bridge's wasm upload enum lacks 'sticker-pack',
+ * but its decrypt side has the Sticker Pack keys — content type, not transport
+ * type, decides crypto.
  */
 const mediaHKDF = (mediaKey, info) => {
 	const derived = new Uint8Array(hkdfSync('sha256', Buffer.from(mediaKey), Buffer.alloc(32), info, 112));
@@ -169,7 +159,6 @@ export async function sendStickerPack(conn, jid, opts) {
 			imageDataHash: createHash('sha256').update(thumb).digest('base64'),
 		});
 	} catch {
-		// thumbnail optional
 	}
 
 	const { generateWAMessageFromContent } = await import('baileys');

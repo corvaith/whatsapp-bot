@@ -1,11 +1,6 @@
 /**
- * .bottomsheet — interactive message with a native bottom sheet: buttons
- * beyond in_thread_buttons_limit collapse into a swipe-up sheet with its own
- * title. Recipe from the @kyuu2nd native-flow family:
- * messageParamsJson.bottom_sheet {in_thread_buttons_limit, divider_indices,
- * list_title, button_title} + optional tap_target_configuration.
- *
- * .bottomsheet <limit> | <sheet-title> | <button label1;label2;...>
+ * .bottomsheet — interactive message whose extra buttons collapse into a
+ * native bottom sheet via messageParamsJson.bottom_sheet (@kyuu2nd recipe).
  */
 import { generateMessageIDV2, proto } from 'baileys';
 

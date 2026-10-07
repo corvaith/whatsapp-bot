@@ -1,12 +1,6 @@
 /**
- * .paymentinfo — "payment_info" native card (Pix-style static-code payment
- * detail sheet). Shape taken verbatim from a working hand-relayed payload:
- * interactiveMessage > nativeFlowMessage > payment_info button + biz node
- * native_flow name=payment_info. Note: this dump is the P2M "order" variant —
- * total amount 0 and the item row are placeholders the client fills from
- * payment_settings; a real amount can be passed in.
- *
- * .paymentinfo <merchant> | <key> | [PHONE|EMAIL|CPF|CNPJ|EVP] | [currency] | [amount]
+ * .paymentinfo — "payment_info" native card (Pix-style static-code detail
+ * sheet), shape taken verbatim from a working hand-relayed payload.
  */
 import crypto from 'crypto';
 import { generateMessageIDV2 } from 'baileys';
