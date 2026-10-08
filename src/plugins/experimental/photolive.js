@@ -10,10 +10,10 @@ import { join } from 'path';
 const delay = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export default {
-	commands: ['livephoto'],
+	commands: ['photolive'],
 	category: 'experimental',
 	description: 'Turn a short video into a live photo. Attach the video with .livephoto as caption (or reply to one).',
-	usage: '{prefix}livephoto (attach a video with this as caption, or reply to a video)',
+	usage: '{prefix}photolive (attach a video with this as caption, or reply to a video)',
 	react: '\u{1F5BC}\uFE0F',
 
 	async run(context) {

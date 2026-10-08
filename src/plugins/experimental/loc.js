@@ -2,7 +2,7 @@
  * Send a location card from latitude/longitude.
  */
 export default {
-	commands: ['loc'],
+	commands: ['location', 'loc'],
 	category: 'experimental',
 	description: 'Send a location. Usage: .loc <lat> <lon> [name]',
 	usage: '{prefix}loc <lat> <lon> [name]',

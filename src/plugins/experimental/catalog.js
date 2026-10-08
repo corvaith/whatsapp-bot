@@ -4,25 +4,25 @@
  */
 import { randomBytes } from 'crypto';
 import { prepareWAMessageMedia, generateMessageIDV2, proto } from 'baileys';
+import { resolveMedia, BANNER_IMAGE } from './_assets.js';
 
 export default {
 	commands: ['catalog'],
 	category: 'experimental',
-	description: 'Send a product catalog card. Attach/reply an image: .catalog <title>',
-	usage: '{prefix}catalog MY WAIFU 1',
+	description: 'Send a product catalog card. Bare command uses the default photo; attach/reply an image to override.',
+	usage: '{prefix}catalog <title>',
 	react: '\u{1F6CD}\uFE0F',
 
 	async run(context) {
 		const { m, conn, text } = context;
 		const title = (text || '').trim() || 'My Product';
 
-		let imgBuf;
-		if (m.isQuoted && m.quoted.isMedia) imgBuf = await m.quoted.download();
-		else if (m.isMedia) imgBuf = await m.download();
-		if (!imgBuf) {
+		const media = await resolveMedia(m, BANNER_IMAGE);
+		if (!media) {
 			await m.react('❌');
-			return m.reply('Attach or reply an image for the product photo.\nUsage: .catalog <title>');
+			return m.reply('Could not load the product photo. Attach or reply an image, or try again.');
 		}
+		const imgBuf = media.buffer;
 
 		const { imageMessage } = await prepareWAMessageMedia({ image: imgBuf }, { upload: conn.waUploadToServer });
 

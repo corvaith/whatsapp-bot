@@ -6,7 +6,6 @@ const ownerNumbers = (process.env.OWNER_NUMBER || '')
 	.map((n) => n.trim())
 	.filter(Boolean);
 const publicMode = (process.env.PUBLIC_MODE || 'false').toLowerCase() === 'true';
-const pixelyteBaseUrl = process.env.PIXELYTE_API_URL || 'https://api.pixelyte.zone.id';
 const nodeEnv = process.env.NODE_ENV || 'production';
 const prefixes = (process.env.PREFIX || '')
 	.split(',')
@@ -19,9 +18,15 @@ export const config = {
 	whatsapp: { pairingNumber, ownerNumbers },
 	prefixes,
 	bot: { publicMode },
-	pixelyte: { baseUrl: pixelyteBaseUrl },
 	dataDir: join(process.cwd(), 'data'),
 };
+
+/** Restore a runtime-persisted mode override (survives restarts). */
+export function applyRuntimeMode(mode) {
+	if (mode === 'public' || mode === 'self') {
+		config.bot.publicMode = mode === 'public';
+	}
+}
 
 /** Fail fast when mandatory configuration is missing. */
 export function validateConfig() {
@@ -29,7 +34,6 @@ export function validateConfig() {
 	if (!ownerNumbers.length) missing.push('OWNER_NUMBER');
 	if (!pairingNumber) missing.push('PAIRING_NUMBER');
 	if (missing.length) throw new Error(`Configuration error: ${missing.join(', ')} not configured.`);
-	// Same rules as validatePrefix in core/prefix.js (kept inline to avoid a circular import).
 	for (const p of prefixes) {
 		if (p.length > 4 || /\s/.test(p) || /[A-Za-z0-9]/.test(p)) {
 			throw new Error(`Configuration error: invalid prefix "${p}" in PREFIX.`);

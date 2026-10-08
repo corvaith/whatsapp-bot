@@ -93,12 +93,8 @@ export default {
 
 	async run(context) {
 		const { m, conn, text } = context;
-		const raw = (text || '').trim();
-		if (!raw) {
-			return m.reply(
-				`Usage:\n- ${m.prefix}airich <text>\n- ${m.prefix}airich code javascript <code>\n- ${m.prefix}airich table H1,H2;row1a,row1b;row2a,row2b\n- ${m.prefix}airich html <full HTML document>`,
-			);
-		}
+		// Bare invocation answers with a default card instead of a usage dump.
+		const raw = (text || '').trim() || 'Hello from the bot — this is a default rich response.';
 
 		const submessages = [];
 		const sections = [];

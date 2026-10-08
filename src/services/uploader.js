@@ -77,10 +77,42 @@ export async function tmpfiles(buffer, filename) {
 	return raw;
 }
 
-export const providers = { uguu, tmpfiles, lunee };
+
+/**
+ * top4top.io - persistent hosting (Arab file host), direct raw links of the
+ * form https://e.top4top.io/p_<id>.<ext>. No public API: scrape the session
+ * sid token from the homepage (cookie-bound), then multipart POST file_1_.
+ */
+export async function top4top(buffer, filename) {
+	const { blob, name, mime } = await prepare(buffer, filename);
+	const headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131.0 Safari/537.36' };
+	const home = await fetch('https://top4top.io/', { headers, signal: AbortSignal.timeout(30000) });
+	const sidMatch = (await home.text()).match(/name="sid" value="([^"]*)"/);
+	if (!sidMatch) throw new Error('Top4top: sid token not found.');
+	const sid = decodeURIComponent(sidMatch[1]);
+	const cookie = home.headers.getSetCookie?.().map((c) => c.split(';')[0]).join('; ') || '';
+
+	const form = new FormData();
+	form.append('sid', sid);
+	form.append('checkr', 'on');
+	form.append('file_1_', blob, name);
+	form.append('submitr', '[ رفع الملفات ]');
+	const res = await fetch('https://top4top.io/index.php', {
+		method: 'POST',
+		body: form,
+		headers: { ...headers, Cookie: cookie, Referer: 'https://top4top.io/', Origin: 'https://top4top.io' },
+		signal: AbortSignal.timeout(180000),
+	});
+	const html = await res.text();
+	const link = html.match(/https?:\/\/[a-z]\.top4top\.io\/p_[^"'<>\s]+/)?.[0];
+	if (!link) throw new Error('Top4top: upload link not found in response.');
+	return link;
+}
+
+export const providers = { uguu, tmpfiles, lunee, top4top };
 
 /** Providers tried in order when no provider is named; uguu is the default. */
-export const defaultChain = ['uguu', 'tmpfiles', 'lunee'];
+export const defaultChain = ['uguu', 'tmpfiles', 'lunee', 'top4top'];
 
 /**
  * Upload using a named provider. Without a provider, tries the default chain

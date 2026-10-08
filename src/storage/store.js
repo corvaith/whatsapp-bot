@@ -186,3 +186,54 @@ export const contacts = new TableStore(db, {
 });
 
 export { TableStore };
+
+// PRD: custom sticker commands (TTL 7 days via created_at + prune).
+export const customCommands = new TableStore(db, {
+	table: 'custom_commands',
+	primaryKey: 'id',
+	ttlMs: 7 * 24 * 60 * 60 * 1000,
+	columns: [
+		{ prop: 'id', name: 'id', type: 'TEXT NOT NULL PRIMARY KEY' },
+		{ prop: 'stickerHash', name: 'sticker_hash', type: 'TEXT NOT NULL' },
+		{ prop: 'command', name: 'command', type: 'TEXT NOT NULL' },
+		{ prop: 'createdBy', name: 'created_by', type: 'TEXT' },
+	],
+});
+
+// PRD: saved messages (persistent, manual deletion only).
+export const savedMessages = new TableStore(db, {
+	table: 'saved_messages',
+	primaryKey: 'id',
+	columns: [
+		{ prop: 'id', name: 'id', type: 'TEXT NOT NULL PRIMARY KEY' },
+		{ prop: 'keyword', name: 'keyword', type: 'TEXT NOT NULL' },
+		{ prop: 'chatId', name: 'chat_id', type: 'TEXT NOT NULL' },
+		{ prop: 'ownerId', name: 'owner_id', type: 'TEXT' },
+		{ prop: 'messageType', name: 'message_type', type: 'TEXT' },
+		{ prop: 'payload', name: 'payload', type: 'TEXT' },
+		{ prop: 'mediaPath', name: 'media_path', type: 'TEXT' },
+		{ prop: 'mimeType', name: 'mime_type', type: 'TEXT' },
+	],
+});
+
+// PRD: group analytics daily aggregates (no per-message rows; query-time TTL window).
+db.run(`CREATE TABLE IF NOT EXISTS group_message_stats (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		chat_id TEXT NOT NULL,
+		date TEXT NOT NULL,
+		user_id TEXT NOT NULL,
+		total INTEGER NOT NULL DEFAULT 0,
+		text INTEGER NOT NULL DEFAULT 0,
+		image INTEGER NOT NULL DEFAULT 0,
+		video INTEGER NOT NULL DEFAULT 0,
+		audio INTEGER NOT NULL DEFAULT 0,
+		sticker INTEGER NOT NULL DEFAULT 0,
+		document INTEGER NOT NULL DEFAULT 0,
+		other INTEGER NOT NULL DEFAULT 0,
+		created_at INTEGER NOT NULL
+	)`);
+db.run(`CREATE UNIQUE INDEX IF NOT EXISTS idx_group_stats_day ON group_message_stats(chat_id, date, user_id)`);
+
+// DB handle export used by services that need custom SQL (analytics upserts).
+export { db };
+

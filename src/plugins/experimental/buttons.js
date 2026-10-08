@@ -12,14 +12,22 @@ export default {
 
 	async run(context) {
 		const { m, conn, text } = context;
+<<<<<<< HEAD
 		const parts = (text || '')
 			.split('|')
 			.map((s) => s.trim())
 			.filter(Boolean);
 		if (parts.length < 2 || parts.length > 4) {
+=======
+		const parts = (text || '').split('|').map((s) => s.trim()).filter(Boolean);
+		// Bare invocation renders a default card instead of a usage dump.
+		const [body, ...labels] = parts.length >= 2
+			? parts
+			: ['Hello from the bot — pick an option below.', 'Ping', 'Info'];
+		if (labels.length > 3) {
+>>>>>>> 8be8bc4 (feat(experimental): poll command trigger with encrypted vote decryption and multi-voter support)
 			return m.reply(`Usage: ${m.prefix}buttons <text> | <button1> | <button2> [| <button3>]`);
 		}
-		const [body, ...labels] = parts;
 		const im = proto.Message.InteractiveMessage.create({
 			body: proto.Message.InteractiveMessage.Body.create({ text: body }),
 			footer: proto.Message.InteractiveMessage.Footer.create({ text: 'whatsapp-bot' }),

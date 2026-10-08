@@ -12,12 +12,7 @@ export default {
 	async run({ m, registry, isOwner }) {
 		const groups = registry.getVisibleCommands({ isOwner });
 		const collator = new Intl.Collator('id', { sensitivity: 'base', numeric: true });
-		const order = ['general', 'tools', 'media', 'experimental', 'owner'];
-		const categories = [...groups.keys()].sort((a, b) => {
-			const ia = order.indexOf(a);
-			const ib = order.indexOf(b);
-			return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib) || collator.compare(a, b);
-		});
+		const categories = [...groups.keys()].sort((a, b) => collator.compare(a, b));
 
 		const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 		const { getPrefixes } = await import('#core/prefix.js');

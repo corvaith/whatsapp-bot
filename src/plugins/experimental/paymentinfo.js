@@ -11,7 +11,7 @@ export default {
 	commands: ['paymentinfo'],
 	category: 'experimental',
 	description: 'Send a native payment_info card (Pix static code style). Usage: .paymentinfo <merchant> | <key> | [keytype] | [currency] | [amount]',
-	usage: '{prefix}paymentinfo Fiora Sylvie | +6288279119895 | PHONE | BRL | 150.00',
+	usage: '{prefix}paymentinfo Hello World! | +6288279119895 | PHONE | BRL | 150.00',
 	react: '💳',
 
 	async run(context) {

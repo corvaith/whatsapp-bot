@@ -4,6 +4,7 @@
  */
 import crypto from 'crypto';
 import { generateMessageIDV2, proto } from 'baileys';
+import { SQUARE_IMAGE } from './_assets.js';
 
 const section = (primitives, layout = 'GenAIActionRowLayoutViewModel') => ({
 	view_model: { primitives, __typename: layout },
@@ -12,18 +13,18 @@ const section = (primitives, layout = 'GenAIActionRowLayoutViewModel') => ({
 export default {
 	commands: ['aicard'],
 	category: 'experimental',
-	description: 'Send a Meta AI style entity card with image, link chip and social entity text. Usage: .aicard Title | Subtitle | ImageURL | EntityURL | Text',
-	usage: '{prefix}aicard Ai Lookup | By bot | https://files.catbox.moe/h87kyf.png | https://instagram.com/user | text',
+	description: 'Send a Meta AI style entity card. Bare command uses default artwork; .aicard Title | Subtitle | ImageURL | EntityURL | Text overrides.',
+	usage: '{prefix}aicard [Title | Subtitle | ImageURL | EntityURL | Text]',
 	react: '🪪',
 
 	async run(context) {
 		const { m, conn, text } = context;
-		const [title, subtitle, image, entityUrl, body] = (text || '').split('|').map((p) => p.trim());
-		if (!title || !image || !entityUrl) {
-			return m.reply(
-				`Usage: ${m.prefix}aicard Title | Subtitle | ImageURL | EntityURL | [Text]\nExample: ${m.prefix}aicard Ai Lookup | By bot | https://files.catbox.moe/h87kyf.png | https://instagram.com/instagram | See results`,
-			);
-		}
+		const parts = (text || '').split('|').map((p) => p.trim());
+		const title = parts[0] || 'whatsapp-bot';
+		const subtitle = parts[1] || 'debug';
+		const image = parts[2] || SQUARE_IMAGE;
+		const entityUrl = parts[3] || 'https://github.com/corvaith';
+		const body = parts[4];
 		const username = entityUrl.replace(/\/+$/, '').split('/').pop() || title;
 
 		const sections = [
@@ -32,7 +33,7 @@ export default {
 					title,
 					subtitle: subtitle || '',
 					secondary_subtitle: '',
-					image: { url: image, mime_type: 'image/png' },
+					image: { url: image, mime_type: 'image/jpeg' },
 					entity_id: '123456',
 					entity_url: entityUrl,
 					entity_type: 'WEBSITE',
