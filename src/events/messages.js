@@ -56,8 +56,7 @@ async function handlePollVote(conn, raw) {
 	for (const pollCreatorJid of creatorIds) {
 		for (const voterJid of voterIds) {
 			try {
-				vote = decryptPollVote(update.vote, { pollCreatorJid, pollMsgId: entry.keyId, pollEncKey: entry.encKey, voterJid },
-					{ decryptPollVotePayload });
+				vote = decryptPollVote(update.vote, { pollCreatorJid, pollMsgId: entry.keyId, pollEncKey: entry.encKey, voterJid }, { decryptPollVotePayload });
 				conn.logger?.info?.(`Poll vote decrypted (creator=${pollCreatorJid} voter=${voterJid})`);
 				break;
 			} catch {

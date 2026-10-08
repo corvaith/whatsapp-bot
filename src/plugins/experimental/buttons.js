@@ -12,11 +12,12 @@ export default {
 
 	async run(context) {
 		const { m, conn, text } = context;
-		const parts = (text || '').split('|').map((s) => s.trim()).filter(Boolean);
+		const parts = (text || '')
+			.split('|')
+			.map((s) => s.trim())
+			.filter(Boolean);
 		// Bare invocation renders a default card instead of a usage dump.
-		const [body, ...labels] = parts.length >= 2
-			? parts
-			: ['Hello from the bot — pick an option below.', 'Ping', 'Info'];
+		const [body, ...labels] = parts.length >= 2 ? parts : ['Hello from the bot — pick an option below.', 'Ping', 'Info'];
 		if (labels.length > 3) {
 			return m.reply(`Usage: ${m.prefix}buttons <text> | <button1> | <button2> [| <button3>]`);
 		}

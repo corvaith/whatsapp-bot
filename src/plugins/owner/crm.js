@@ -508,7 +508,9 @@ function crmStoreQuery(sql) {
 function getLastChatRows(crmstore, m, limit) {
 	const chat = m.quoted?.chat || m.chat;
 	const ts = Number(m.quoted?.timesTamp || m.timesTamp || 0) || Math.floor(Date.now() / 1000);
-	return crmStoreQuery('SELECT rowid_ AS rowid, id, chat, sender, timestamp, data FROM messages WHERE chat = ? AND timestamp <= ? ORDER BY timestamp DESC, rowid_ DESC LIMIT ?').all(chat, ts, limit).reverse();
+	return crmStoreQuery('SELECT rowid_ AS rowid, id, chat, sender, timestamp, data FROM messages WHERE chat = ? AND timestamp <= ? ORDER BY timestamp DESC, rowid_ DESC LIMIT ?')
+		.all(chat, ts, limit)
+		.reverse();
 }
 
 function getMessageType(message) {
@@ -557,40 +559,51 @@ function formatLastChat(rows) {
 }
 
 function stringify(obj) {
-	return JSON.stringify(obj, (key, value) => {
-		if (Buffer.isBuffer(value)) return value.toString('base64');
-		if (value?.type === 'Buffer' && Array.isArray(value.data)) return Buffer.from(value.data).toString('base64');
-		return value;
-	}, 2);
+	return JSON.stringify(
+		obj,
+		(key, value) => {
+			if (Buffer.isBuffer(value)) return value.toString('base64');
+			if (value?.type === 'Buffer' && Array.isArray(value.data)) return Buffer.from(value.data).toString('base64');
+			return value;
+		},
+		2,
+	);
 }
 
 const indentBlock = (str, level = 1) => {
 	const pad = '  '.repeat(level);
-	return str.split('\n').map((line, i) => (i === 0 ? line : pad + line)).join('\n');
+	return str
+		.split('\n')
+		.map((line, i) => (i === 0 ? line : pad + line))
+		.join('\n');
 };
 
 // JSON → JS object literal, with embedded JSON strings (buttonParamsJson,
 // unifiedResponse) expanded into inline Buffer/JSON.stringify expressions.
 function stringifySnippet(obj) {
 	const raws = [];
-	const json = JSON.stringify(obj, (key, value) => {
-		if (key === 'unifiedResponse' && value && typeof value === 'object' && typeof value.data === 'string') {
-			try {
-				const parsed = JSON.parse(Buffer.from(value.data, 'base64').toString('utf8'));
-				raws.push(`Buffer.from(JSON.stringify(${JSON.stringify(parsed, null, 2)})).toString('base64')`);
-				return { data: `__RAW_${raws.length - 1}__` };
-			} catch {}
-		}
-		if (key === 'buttonParamsJson' && typeof value === 'string') {
-			try {
-				raws.push(`JSON.stringify(${JSON.stringify(JSON.parse(value), null, 2)})`);
-				return `__RAW_${raws.length - 1}__`;
-			} catch {}
-		}
-		if (Buffer.isBuffer(value)) return value.toString('base64');
-		if (value?.type === 'Buffer' && Array.isArray(value.data)) return Buffer.from(value.data).toString('base64');
-		return value;
-	}, 2);
+	const json = JSON.stringify(
+		obj,
+		(key, value) => {
+			if (key === 'unifiedResponse' && value && typeof value === 'object' && typeof value.data === 'string') {
+				try {
+					const parsed = JSON.parse(Buffer.from(value.data, 'base64').toString('utf8'));
+					raws.push(`Buffer.from(JSON.stringify(${JSON.stringify(parsed, null, 2)})).toString('base64')`);
+					return { data: `__RAW_${raws.length - 1}__` };
+				} catch {}
+			}
+			if (key === 'buttonParamsJson' && typeof value === 'string') {
+				try {
+					raws.push(`JSON.stringify(${JSON.stringify(JSON.parse(value), null, 2)})`);
+					return `__RAW_${raws.length - 1}__`;
+				} catch {}
+			}
+			if (Buffer.isBuffer(value)) return value.toString('base64');
+			if (value?.type === 'Buffer' && Array.isArray(value.data)) return Buffer.from(value.data).toString('base64');
+			return value;
+		},
+		2,
+	);
 
 	let code = json.replace(/^(\s*)"([^"]+)":/gm, (_, indent, k) => `${indent}${k}:`);
 	code = code
@@ -599,7 +612,10 @@ function stringifySnippet(obj) {
 			const match = line.match(/^(\s*).*"__RAW_(\d+)__"/);
 			if (!match) return line;
 			const [, indent, id] = match;
-			const block = raws[Number(id)].split('\n').map((l, i) => (i === 0 ? l : indent + l)).join('\n');
+			const block = raws[Number(id)]
+				.split('\n')
+				.map((l, i) => (i === 0 ? l : indent + l))
+				.join('\n');
 			return line.replace(`"__RAW_${id}__"`, block);
 		})
 		.join('\n');

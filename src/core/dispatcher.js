@@ -70,7 +70,9 @@ export async function handle(conn, m, registry) {
 	}
 
 	// Saved message keyword: exact match, chat-scoped.
-	const keyword = String(m.body ?? '').trim().toLowerCase();
+	const keyword = String(m.body ?? '')
+		.trim()
+		.toLowerCase();
 	if (keyword && !keyword.startsWith(m.prefix || '.')) {
 		const entry = savedMessage.findByKeyword(m.chat, keyword);
 		if (entry) {

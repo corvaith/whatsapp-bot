@@ -370,4 +370,23 @@ setInterval(() => {
 	} catch {}
 }, 60 * 1000).unref?.();
 
-export default { db, bind, saveMessage, loadMessage, loadMessageById, saveNode, loadNode, saveAdditionalNode, loadAdditionalNode, hasMessage, deleteMessage, getMessages, getAllMessages, countMessages, cleanup, getStats, loadFullMessage, getRowById };
+export default {
+	db,
+	bind,
+	saveMessage,
+	loadMessage,
+	loadMessageById,
+	saveNode,
+	loadNode,
+	saveAdditionalNode,
+	loadAdditionalNode,
+	hasMessage,
+	deleteMessage,
+	getMessages,
+	getAllMessages,
+	countMessages,
+	cleanup,
+	getStats,
+	loadFullMessage,
+	getRowById,
+};

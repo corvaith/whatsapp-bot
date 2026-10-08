@@ -236,4 +236,3 @@ db.run(`CREATE UNIQUE INDEX IF NOT EXISTS idx_group_stats_day ON group_message_s
 
 // DB handle export used by services that need custom SQL (analytics upserts).
 export { db };
-

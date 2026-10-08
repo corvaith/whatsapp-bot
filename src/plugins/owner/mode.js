@@ -15,7 +15,9 @@ export default {
 
 	async run(context) {
 		const { m, args, text } = context;
-		const target = String(text || '').trim().toLowerCase();
+		const target = String(text || '')
+			.trim()
+			.toLowerCase();
 
 		if (target === 'status' || !target) {
 			const current = config.bot.publicMode ? 'public' : 'self';

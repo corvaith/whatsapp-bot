@@ -28,8 +28,14 @@ export const MAX_SAVED_MEDIA_BYTES = 50 * 1024 * 1024;
 const SAVED_DIR = 'data/saved';
 
 const MEDIA_EXT = {
-	'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif',
-	'video/mp4': 'mp4', 'audio/ogg': 'ogg', 'audio/mpeg': 'mp3', 'audio/mp4': 'm4a',
+	'image/jpeg': 'jpg',
+	'image/png': 'png',
+	'image/webp': 'webp',
+	'image/gif': 'gif',
+	'video/mp4': 'mp4',
+	'audio/ogg': 'ogg',
+	'audio/mpeg': 'mp3',
+	'audio/mp4': 'm4a',
 	'application/pdf': 'pdf',
 };
 

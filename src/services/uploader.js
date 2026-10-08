@@ -77,7 +77,6 @@ export async function tmpfiles(buffer, filename) {
 	return raw;
 }
 
-
 /**
  * top4top.io - persistent hosting (Arab file host), direct raw links of the
  * form https://e.top4top.io/p_<id>.<ext>. No public API: scrape the session
@@ -90,7 +89,11 @@ export async function top4top(buffer, filename) {
 	const sidMatch = (await home.text()).match(/name="sid" value="([^"]*)"/);
 	if (!sidMatch) throw new Error('Top4top: sid token not found.');
 	const sid = decodeURIComponent(sidMatch[1]);
-	const cookie = home.headers.getSetCookie?.().map((c) => c.split(';')[0]).join('; ') || '';
+	const cookie =
+		home.headers
+			.getSetCookie?.()
+			.map((c) => c.split(';')[0])
+			.join('; ') || '';
 
 	const form = new FormData();
 	form.append('sid', sid);
