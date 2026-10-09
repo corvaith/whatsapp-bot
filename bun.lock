@@ -1,9 +1,9 @@
 {
   "lockfileVersion": 2,
-  "configVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "bot",
+      "name": "whatsapp-bot",
       "dependencies": {
         "baileys": "npm:@oxidezap/baileyrs@latest",
         "chalk": "^6.0.0",
@@ -14,38 +14,40 @@
     },
   },
   "packages": {
-    "@borewit/text-codec": ["@borewit/text-codec@0.2.2", "http://mirrors.tencentyun.com/npm/@borewit/text-codec/-/text-codec-0.2.2.tgz", {}, "sha512-DDaRehssg1aNrH4+2hnj1B7vnUGEjU6OIlyRdkMd0aUdIUvKXrJfXsy8LVtXAy7DRvYVluWbMspsRhz2lcW0mQ=="],
+    "@borewit/text-codec": ["@borewit/text-codec@0.2.2", "", {}, "sha512-DDaRehssg1aNrH4+2hnj1B7vnUGEjU6OIlyRdkMd0aUdIUvKXrJfXsy8LVtXAy7DRvYVluWbMspsRhz2lcW0mQ=="],
 
-    "@oxidezap/whatsapp-rust-bridge": ["@oxidezap/whatsapp-rust-bridge@0.24.0", "http://mirrors.tencentyun.com/npm/@oxidezap/whatsapp-rust-bridge/-/whatsapp-rust-bridge-0.24.0.tgz", {}, "sha512-irW9z1fBefIdQkk539osBN2iUGZ4Jnaswxr5eP1s5lWOOev4cTZdew6mJtRy3wA1V7wSu4JH85G9ejucs+jQrg=="],
+    "@bufbuild/protobuf": ["@bufbuild/protobuf@2.16.0", "", {}, "sha512-FWa0sPlqYGJgpTs6OxBRcL/AW4JT0OIO+W1ajerluoTVh8CV0B7XM1qsNCRgnkSCkRCgOICKHRQlY17jrsm0+Q=="],
 
-    "@tokenizer/inflate": ["@tokenizer/inflate@0.4.1", "http://mirrors.tencentyun.com/npm/@tokenizer/inflate/-/inflate-0.4.1.tgz", { "dependencies": { "debug": "^4.4.3", "token-types": "^6.1.1" } }, "sha512-2mAv+8pkG6GIZiF1kNg1jAjh27IDxEPKwdGul3snfztFerfPGI1LjDezZp3i7BElXompqEtPmoPx6c2wgtWsOA=="],
+    "@oxidezap/whatsapp-rust-bridge": ["@oxidezap/whatsapp-rust-bridge@0.25.0", "", { "dependencies": { "@bufbuild/protobuf": "^2.14.1" } }, "sha512-4a3W1aQTY6diF/JQY//v0HRbbuXWEH5BYjpOx4sbN6nz1cBM7++c5lq442rQDAysroakdrM1PXqfe/N1tk8n/A=="],
 
-    "@tokenizer/token": ["@tokenizer/token@0.3.0", "http://mirrors.tencentyun.com/npm/@tokenizer/token/-/token-0.3.0.tgz", {}, "sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A=="],
+    "@tokenizer/inflate": ["@tokenizer/inflate@0.4.1", "", { "dependencies": { "debug": "^4.4.3", "token-types": "^6.1.1" } }, "sha512-2mAv+8pkG6GIZiF1kNg1jAjh27IDxEPKwdGul3snfztFerfPGI1LjDezZp3i7BElXompqEtPmoPx6c2wgtWsOA=="],
 
-    "baileys": ["@oxidezap/baileyrs@0.3.9", "http://mirrors.tencentyun.com/npm/@oxidezap/baileyrs/-/baileyrs-0.3.9.tgz", { "dependencies": { "@oxidezap/whatsapp-rust-bridge": "0.24.0", "events": "^3.3.0", "long": "^5.3.2" }, "peerDependencies": { "@hapi/boom": "^9.1.0 || ^10.0.0", "audio-decode": "^2.1.3", "jimp": "^1.6.0", "link-preview-js": "^3.0.0", "music-metadata": "^11.14.0", "pino": "^9.0.0 || ^10.0.0", "sharp": "*" }, "optionalPeers": ["@hapi/boom", "audio-decode", "jimp", "link-preview-js", "music-metadata", "pino", "sharp"] }, "sha512-hNaD9AUbLC3bP6IR/rSXDNUQy9iH2NxyOL7iNZapZLK/65PHTBQaYBSJIPJ4eo778hObjtIQ7vqefpZQgwZE3g=="],
+    "@tokenizer/token": ["@tokenizer/token@0.3.0", "", {}, "sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A=="],
 
-    "chalk": ["chalk@6.0.1", "http://mirrors.tencentyun.com/npm/chalk/-/chalk-6.0.1.tgz", {}, "sha512-/Ce6KNm3vIbWdMlNna6RVIZ/ICQxnJxCicet5LBKK9ZffBkqzDw0xh9EiKSljdRtiIQ1S1z4YgcscUUGzNCWrA=="],
+    "baileys": ["@oxidezap/baileyrs@0.3.10", "", { "dependencies": { "@oxidezap/whatsapp-rust-bridge": "0.25.0", "events": "^3.3.0", "long": "^5.3.2" }, "peerDependencies": { "@hapi/boom": "^9.1.0 || ^10.0.0", "audio-decode": "^2.1.3", "jimp": "^1.6.0", "link-preview-js": "^3.0.0", "music-metadata": "^11.14.0", "pino": "^9.0.0 || ^10.0.0", "sharp": "*" }, "optionalPeers": ["@hapi/boom", "audio-decode", "jimp", "link-preview-js", "music-metadata", "pino", "sharp"] }, "sha512-JsKuoXBFQ12WfQRxwD/jJ3jRM0cGyN9ZhGQbUKRUqJHHm6oh1sOnQsdg/ZzcxrXeL5E5vtIOVkXTqtgrh0h7GA=="],
 
-    "debug": ["debug@4.4.3", "http://mirrors.tencentyun.com/npm/debug/-/debug-4.4.3.tgz", { "dependencies": { "ms": "^2.1.3" }, "peerDependencies": { "supports-color": "*" }, "optionalPeers": ["supports-color"] }, "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA=="],
+    "chalk": ["chalk@6.0.1", "", {}, "sha512-/Ce6KNm3vIbWdMlNna6RVIZ/ICQxnJxCicet5LBKK9ZffBkqzDw0xh9EiKSljdRtiIQ1S1z4YgcscUUGzNCWrA=="],
 
-    "events": ["events@3.3.0", "http://mirrors.tencentyun.com/npm/events/-/events-3.3.0.tgz", {}, "sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q=="],
+    "debug": ["debug@4.4.3", "", { "dependencies": { "ms": "^2.1.3" } }, "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA=="],
 
-    "fflate": ["fflate@0.8.3", "http://mirrors.tencentyun.com/npm/fflate/-/fflate-0.8.3.tgz", {}, "sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA=="],
+    "events": ["events@3.3.0", "", {}, "sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q=="],
 
-    "file-type": ["file-type@22.1.1", "http://mirrors.tencentyun.com/npm/file-type/-/file-type-22.1.1.tgz", { "dependencies": { "@tokenizer/inflate": "^0.4.1", "strtok3": "^10.3.5", "token-types": "^6.1.2", "uint8array-extras": "^1.5.0" } }, "sha512-sEB0oStmeLGtpmSAD88RDNuLsvhv4iC3u0lE25CUvfCULvj49xoQ3l3K525Vn+ZzsZ6DOLajQCV6RmhwwhqiJg=="],
+    "fflate": ["fflate@0.8.3", "", {}, "sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA=="],
 
-    "ieee754": ["ieee754@1.2.1", "http://mirrors.tencentyun.com/npm/ieee754/-/ieee754-1.2.1.tgz", {}, "sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA=="],
+    "file-type": ["file-type@22.1.1", "", { "dependencies": { "@tokenizer/inflate": "^0.4.1", "strtok3": "^10.3.5", "token-types": "^6.1.2", "uint8array-extras": "^1.5.0" } }, "sha512-sEB0oStmeLGtpmSAD88RDNuLsvhv4iC3u0lE25CUvfCULvj49xoQ3l3K525Vn+ZzsZ6DOLajQCV6RmhwwhqiJg=="],
 
-    "long": ["long@5.3.2", "http://mirrors.tencentyun.com/npm/long/-/long-5.3.2.tgz", {}, "sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA=="],
+    "ieee754": ["ieee754@1.2.1", "", {}, "sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA=="],
 
-    "ms": ["ms@2.1.3", "http://mirrors.tencentyun.com/npm/ms/-/ms-2.1.3.tgz", {}, "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="],
+    "long": ["long@5.3.2", "", {}, "sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA=="],
 
-    "node-webpmux": ["node-webpmux@3.2.1", "http://mirrors.tencentyun.com/npm/node-webpmux/-/node-webpmux-3.2.1.tgz", {}, "sha512-MKgpq9nFgo44pIVNx/umD3nkqb2E8oqQTfmstVsfNdx9uV4cX7a4LqA+d8AZd3v5tgJXwENKUFsXNP3bRLP8nQ=="],
+    "ms": ["ms@2.1.3", "", {}, "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA=="],
 
-    "strtok3": ["strtok3@10.3.5", "http://mirrors.tencentyun.com/npm/strtok3/-/strtok3-10.3.5.tgz", { "dependencies": { "@tokenizer/token": "^0.3.0" } }, "sha512-ki4hZQfh5rX0QDLLkOCj+h+CVNkqmp/CMf8v8kZpkNVK6jGQooMytqzLZYUVYIZcFZ6yDB70EfD8POcFXiF5oA=="],
+    "node-webpmux": ["node-webpmux@3.2.1", "", {}, "sha512-MKgpq9nFgo44pIVNx/umD3nkqb2E8oqQTfmstVsfNdx9uV4cX7a4LqA+d8AZd3v5tgJXwENKUFsXNP3bRLP8nQ=="],
 
-    "token-types": ["token-types@6.1.2", "http://mirrors.tencentyun.com/npm/token-types/-/token-types-6.1.2.tgz", { "dependencies": { "@borewit/text-codec": "^0.2.1", "@tokenizer/token": "^0.3.0", "ieee754": "^1.2.1" } }, "sha512-dRXchy+C0IgK8WPC6xvCHFRIWYUbqqdEIKPaKo/AcTUNzwLTK6AH7RjdLWsEZcAN/TBdtfUw3PYEgPr5VPr6ww=="],
+    "strtok3": ["strtok3@10.3.5", "", { "dependencies": { "@tokenizer/token": "^0.3.0" } }, "sha512-ki4hZQfh5rX0QDLLkOCj+h+CVNkqmp/CMf8v8kZpkNVK6jGQooMytqzLZYUVYIZcFZ6yDB70EfD8POcFXiF5oA=="],
 
-    "uint8array-extras": ["uint8array-extras@1.6.0", "http://mirrors.tencentyun.com/npm/uint8array-extras/-/uint8array-extras-1.6.0.tgz", {}, "sha512-8iAasVS4wUx0gPLjH8Xtz2PeDzTSiy8QiLGu2DT3X5GU+egFEQhpnbtkehbAwjvDcxIERmCYcysiODFmE3Ud0Q=="],
+    "token-types": ["token-types@6.1.2", "", { "dependencies": { "@borewit/text-codec": "^0.2.1", "@tokenizer/token": "^0.3.0", "ieee754": "^1.2.1" } }, "sha512-dRXchy+C0IgK8WPC6xvCHFRIWYUbqqdEIKPaKo/AcTUNzwLTK6AH7RjdLWsEZcAN/TBdtfUw3PYEgPr5VPr6ww=="],
+
+    "uint8array-extras": ["uint8array-extras@1.6.0", "", {}, "sha512-8iAasVS4wUx0gPLjH8Xtz2PeDzTSiy8QiLGu2DT3X5GU+egFEQhpnbtkehbAwjvDcxIERmCYcysiODFmE3Ud0Q=="],
   }
 }
