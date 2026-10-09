@@ -7,8 +7,8 @@ import { join } from 'path';
 import { request } from '#utils/http.js';
 
 /**
- * Album helper: send an albumMessage parent + associated media children.
- * Wire shape captured 1:1 from a real official-client album (see .albumdebug).
+ * Send an albumMessage parent with associated media children; wire shape
+ * captured from a real official-client album.
  */
 
 /**

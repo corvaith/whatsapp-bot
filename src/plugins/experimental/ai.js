@@ -1,9 +1,6 @@
 import crypto from 'crypto';
 import { generateMessageIDV2, proto } from 'baileys';
-/**
- * .aicard — Meta AI style entity card (AIRich compact entity primitive),
- * shape taken verbatim from a working hand-relayed payload.
- */
+/** Send a Meta AI style entity card built from AIRich compact-entity primitives. */
 
 const section = (primitives, layout = 'GenAIActionRowLayoutViewModel') => ({
 	view_model: { primitives, __typename: layout },
@@ -12,7 +9,7 @@ const section = (primitives, layout = 'GenAIActionRowLayoutViewModel') => ({
 export const aicard = {
 	commands: ['aicard'],
 	category: 'experimental',
-	description: 'Send a Meta AI style entity card. Bare command uses default artwork;',
+	description: 'Send a Meta AI style entity card. Bare send uses default artwork; attach/reply an image to override.',
 	usage: '{prefix}aicard [Title | Subtitle | ImageURL | EntityURL | Text]',
 	react: '🪪',
 
@@ -88,10 +85,7 @@ export const aicard = {
 	},
 };
 
-/**
- * Send a Meta AI style rich response (AIRich / botForwardedMessage > richResponseMessage).
- * Modes: text | code <lang> | table — with suggestion pills.
- */
+/** Send a Meta AI style rich response: plain text, code block, table, or HTML app. */
 
 const tokenize = (code, language) => {
 	const keywords = new Set(
@@ -175,7 +169,7 @@ const toTableRows = (table) => {
 export const airich = {
 	commands: ['airich'],
 	category: 'experimental',
-	description: 'Send a Meta AI style rich response',
+	description: 'Send a Meta AI style rich response: plain text, code block, table, or HTML mini app.',
 	usage: '{prefix}airich <text> | code <lang> <code> | table "H1,H2;row1;row2"',
 	react: '🤖',
 

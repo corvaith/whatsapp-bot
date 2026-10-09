@@ -1,11 +1,7 @@
 import crypto from 'crypto';
 import { generateMessageIDV2, proto } from 'baileys';
 
-// from payment.js
-/**
- * .payment — "review_and_pay" order card with a selectable list of bank/e-wallet
- * accounts, shape taken verbatim from a working hand-relayed payload.
- */
+/** Native review-and-pay order card with a selectable account list. */
 
 const WALLETS = ['DANA', 'OVO', 'GoPay', 'ShopeePay', 'LinkAja'];
 
@@ -114,11 +110,7 @@ export const payment = {
 	},
 };
 
-// from paymentinfo.js
-/**
- * .paymentinfo — "payment_info" native card (Pix-style static-code detail
- * sheet), shape taken verbatim from a working hand-relayed payload.
- */
+/** Native payment-info card with a static payment code. */
 
 const KEY_TYPES = ['PHONE', 'EVP', 'CPF', 'CNPJ', 'EMAIL'];
 
@@ -208,14 +200,13 @@ export const paymentinfo = {
 	},
 };
 
-// from payreq.js
 /**
  * Send a payment request card.
  */
 export const payreq = {
 	commands: ['payreq'],
 	category: 'experimental',
-	description: 'Send a payment request',
+	description: 'Send a payment request bubble for the given amount.',
 	usage: '{prefix}payreq <amount> [note]',
 	react: '💰',
 

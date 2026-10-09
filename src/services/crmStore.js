@@ -226,7 +226,7 @@ export function countMessages() {
 	}
 }
 
-/** Raw message row (blob undecoded) by SQLite rowid — used by the .crm #rowid flow. */
+/** Raw undecoded message row by SQLite rowid. */
 export function getRowById(rowid) {
 	return stmt.rowById.get(Number(rowid)) ?? null;
 }

@@ -549,12 +549,18 @@ function formatLastChat(rows) {
 	return lines.join('\n');
 }
 
+/** Decode byte values as latin1 text when printable, else base64, for readable dumps. */
+const decodeBytes = (value) => {
+	const bytes = value instanceof Uint8Array ? value : Buffer.from(value.data ?? []);
+	const text = Buffer.from(bytes).toString('latin1');
+	return /^[\x20-\x7e\n\r\t]*$/.test(text) ? text : Buffer.from(bytes).toString('base64');
+};
+
 function stringify(obj) {
 	return JSON.stringify(
 		obj,
 		(key, value) => {
-			if (Buffer.isBuffer(value)) return value.toString('base64');
-			if (value?.type === 'Buffer' && Array.isArray(value.data)) return Buffer.from(value.data).toString('base64');
+			if (Buffer.isBuffer(value) || value instanceof Uint8Array || value?.type === 'Buffer') return decodeBytes(value);
 			return value;
 		},
 		2,
@@ -587,8 +593,7 @@ function stringifySnippet(obj) {
 					return `__RAW_${raws.length - 1}__`;
 				} catch {}
 			}
-			if (Buffer.isBuffer(value)) return value.toString('base64');
-			if (value?.type === 'Buffer' && Array.isArray(value.data)) return Buffer.from(value.data).toString('base64');
+			if (Buffer.isBuffer(value) || value instanceof Uint8Array || value?.type === 'Buffer') return decodeBytes(value);
 			return value;
 		},
 		2,

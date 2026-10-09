@@ -2,9 +2,8 @@ import { config } from '#config.js';
 import { saveMode } from '#services/botMode.js';
 
 /**
- * Toggle bot access mode at runtime: .mode public | .mode self.
- * Mutates the shared config object so dispatcher's check flips immediately
- * without a process restart.
+ * Toggle bot access mode at runtime; mutates the shared config object so the
+ * dispatcher check flips without a restart.
  */
 export default {
 	commands: ['mode'],

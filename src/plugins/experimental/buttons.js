@@ -1,3 +1,4 @@
+import { execFile } from 'child_process';
 import { generateWAMessageFromContent, generateMessageIDV2, proto } from 'baileys';
 
 /**
@@ -17,7 +18,6 @@ export const buttons = {
 			.split('|')
 			.map((s) => s.trim())
 			.filter(Boolean);
-		// Bare invocation renders a default card instead of a usage dump.
 		const [body, ...labels] = parts.length >= 2 ? parts : ['Hello from the bot — pick an option below.', 'Ping', 'Info'];
 		if (labels.length > 3) {
 			return m.reply(`Usage: ${m.prefix}buttons <text> | <button1> | <button2> [| <button3>]`);
@@ -38,10 +38,7 @@ export const buttons = {
 	},
 };
 
-/**
- * .allbuttons — demo of every native-flow button type this client accepts;
- * newer shapes ported from working hand-relayed payloads (RyuuBotz/XezBOT).
- */
+/** Demo card covering every native-flow button type the client accepts. */
 
 const json = (o) => JSON.stringify(o);
 const SITE_buttons = 'https://github.com/corvaith';
@@ -163,7 +160,7 @@ export const allbuttons = {
 export const bottomsheet = {
 	commands: ['bottomsheet'],
 	category: 'experimental',
-	description: 'Interactive card whose extra buttons collapse into a native bottom sheet. Usage: .bottomsheet <limit> | <title> | <btn1;btn2;...>',
+	description: 'Interactive card whose extra buttons collapse into a native bottom sheet.',
 	usage: '{prefix}bottomsheet 2 | Demo Sheet | Menu;Ping;Info;Help',
 	react: '\u{1F5D1}\uFE0F',
 

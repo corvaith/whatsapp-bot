@@ -7,7 +7,8 @@ import cp from 'child_process';
 export default {
 	category: 'owner',
 	helpName: 'exec',
-	description: 'Execute a shell command.',
+	description: 'Execute a shell command on the host and reply with its output.',
+	usage: 'Prefix the message with $ followed by the shell command',
 	access: 'owner',
 	match: ({ m }) => m.body?.startsWith('$'),
 

@@ -13,7 +13,8 @@ import { formatSize, toTime } from '#utils/format.js';
 export default {
 	category: 'owner',
 	helpName: 'eval',
-	description: 'Execute JavaScript.',
+	description: 'Execute JavaScript in the bot process and reply with the result.',
+	usage: 'Prefix the message with > or => followed by JavaScript code',
 	access: 'owner',
 	match: ({ m }) => ['>', '=>'].some((prefix) => m.body?.startsWith(prefix)),
 

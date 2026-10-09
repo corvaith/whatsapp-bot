@@ -6,9 +6,7 @@ import { tmpdir } from 'os';
 import { join } from 'path';
 import { analyzeAudio, repacketizeOggOpusToCode3 } from '#utils/media.js';
 
-/**
- * Get the group invite link.
- */
+/** Get the current group's invite link. */
 export const glink = {
 	commands: ['glink', 'gclink'],
 	category: 'experimental',
@@ -25,13 +23,11 @@ export const glink = {
 	},
 };
 
-/**
- * Send a group invite card for the current group.
- */
+/** Send a group invite card for the current group. */
 export const ginvite = {
 	commands: ['ginvite'],
 	category: 'experimental',
-	description: 'Send a group invite card. Usage: .ginvite [caption]',
+	description: 'Send a group invite card for this group, with an optional caption.',
 	usage: '{prefix}ginvite [caption]',
 	react: '📨',
 
@@ -57,71 +53,13 @@ export const ginvite = {
 };
 
 /**
- * .inapp — relay a hand-crafted native-flow interactive message whose content
- * also carries a sender-key distribution blob (verbatim from a working relay).
- */
-
-const SENDER_KEY_BYTES = Uint8Array.from([
-	51, 8, 218, 232, 141, 249, 7, 16, 7, 26, 32, 19, 239, 40, 201, 25, 239, 10, 132, 20, 1, 62, 11, 136, 190, 63, 198, 76, 165, 56, 58, 123, 119, 180, 110, 138, 105, 180, 141, 81, 212, 235, 86, 34,
-	33, 5, 125, 79, 176, 6, 62, 37, 125, 58, 100, 247, 47, 228, 32, 17, 41, 184, 117, 68, 234, 67, 120, 213, 5, 61, 150, 167, 7, 93, 142, 94, 174, 40,
-]);
-
-const json = (o) => JSON.stringify(o);
-
-export const inapp = {
-	commands: ['inapp'],
-	category: 'experimental',
-	description: 'Relay a hand-crafted native-flow interactive message.',
-	usage: '{prefix}inapp',
-
-	async run({ m, conn }) {
-		await conn.relayMessage(
-			m.chat,
-			{
-				senderKeyDistributionMessage: {
-					groupId: '120363423077197619@g.us',
-					axolotlSenderKeyDistributionMessage: SENDER_KEY_BYTES,
-				},
-				interactiveMessage: {
-					header: { title: 'Hello World!', hasMediaAttachment: false },
-					body: { text: 'Hello World!' },
-					contextInfo: {
-						participant: '13135550002@s.whatsapp.net',
-						remoteJid: 'status@broadcast',
-					},
-					nativeFlowMessage: {
-						buttons: [{ name: 'inapp_signup', buttonParamsJson: json({}) }],
-					},
-				},
-			},
-			{
-				additionalNodes: [
-					{
-						tag: 'biz',
-						attrs: {},
-						content: [
-							{
-								tag: 'interactive',
-								attrs: { type: 'native_flow', v: '1' },
-								content: [{ tag: 'native_flow', attrs: { v: '9', name: 'mixed' } }],
-							},
-						],
-					},
-				],
-			},
-		);
-	},
-};
-
-/**
- * Post a group story (groupStatusMessageV2): text, image, video, or audio.
- * Audio is converted to opus ptt so it can be played from the story.
+ * Post a story visible only to this group; audio is converted to a playable voice note.
  */
 
 export const grupstory = {
 	commands: ['grupstory', 'gstory'],
 	category: 'experimental',
-	description: 'Post a story visible only in this group. Attach media with caption, or .grupstory <text>.',
+	description: 'Post a story visible only to this group. Send text or attach media with a caption.',
 	usage: '{prefix}grupstory <text> | (attach image/video/audio with this as caption)',
 	react: 'story',
 
@@ -181,13 +119,11 @@ export const grupstory = {
 	},
 };
 
-/**
- * Create a WhatsApp event card (starts 5 minutes from now).
- */
+/** Create a WhatsApp event card starting five minutes from now. */
 export const event = {
 	commands: ['event'],
 	category: 'experimental',
-	description: 'Create an event starting in 5 minutes. Usage: .event <name> | [description]',
+	description: 'Create a WhatsApp event starting five minutes from now.',
 	usage: '{prefix}event <name> | [description]',
 	react: '📅',
 
@@ -210,4 +146,4 @@ export const event = {
 	},
 };
 
-export default [glink, ginvite, inapp, grupstory, event];
+export default [glink, ginvite, grupstory, event];

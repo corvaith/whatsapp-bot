@@ -10,7 +10,7 @@ import { registerPoll } from '#services/polls.js';
 export const poll = {
 	commands: ['poll'],
 	category: 'experimental',
-	description: 'Create a polling in groups',
+	description: 'Create a poll in this chat.',
 	usage: '{prefix}poll <question> | <option> | <option> [| ...]',
 
 	async run(context) {
@@ -35,7 +35,7 @@ export const pollcmd = {
 	category: 'experimental',
 	access: 'owner',
 	description: 'Send a poll whose options trigger commands on vote.',
-	usage: '{prefix}pollcmd — sends a poll with ping/info/prefix options',
+	usage: '{prefix}pollcmd',
 
 	async run(context) {
 		const { m, conn } = context;

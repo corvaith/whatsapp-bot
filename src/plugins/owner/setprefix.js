@@ -3,9 +3,7 @@ import { validatePrefix, setRuntimePrefixes } from '#core/plugins.js';
 
 const GLOBAL_KEY = 'prefix.global';
 
-/**
- * Owner: replace the global prefix set (persisted in store.db).
- */
+/** Replace the global prefix set, persisted across restarts. */
 export default {
 	commands: ['setprefix', 'resetprefix'],
 	category: 'owner',

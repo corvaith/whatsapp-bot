@@ -6,7 +6,7 @@ import { proto } from 'baileys';
 export const edit = {
 	commands: ['edit'],
 	category: 'experimental',
-	description: 'Edit a bot message. Reply to it with commands',
+	description: 'Edit a message the bot previously sent; reply to it when invoking.',
 	usage: '{prefix}edit <new text> (reply to a bot message)',
 	react: '✏️',
 
@@ -47,7 +47,7 @@ export const forward = {
 export const pin = {
 	commands: ['pin'],
 	category: 'experimental',
-	description: 'Pin a message groups',
+	description: 'Pin or unpin a message in this chat; reply to it when invoking.',
 	usage: '{prefix}pin [1h|7d|30d|off] (reply to a message)',
 
 	async run(context) {
@@ -109,7 +109,7 @@ export const vanish = {
 export const vcard = {
 	commands: ['vcard', 'contact'],
 	category: 'experimental',
-	description: 'Send a contact card with costum name',
+	description: 'Send a contact card with a custom display name.',
 	usage: '{prefix}vcard <number> [name]',
 
 	async run(context) {

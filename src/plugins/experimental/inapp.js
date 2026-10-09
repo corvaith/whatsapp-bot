@@ -1,10 +1,6 @@
-/**
- * .innap — relay a hand-crafted native-flow interactive message whose content
- * also carries a sender-key distribution blob (verbatim from a working relay).
- */
+/** Relay a hand-crafted native-flow interactive card with a sender-key blob. */
 
-// Serialized SenderKeyDistributionMessage. Must stay a binary field: protobuf
-// `bytes` rejects the numeric-key object form the payload was dumped as.
+/** Serialized SenderKeyDistributionMessage; protobuf bytes reject object form. */
 const SENDER_KEY_BYTES = Uint8Array.from([
 	51, 8, 218, 232, 141, 249, 7, 16, 7, 26, 32, 19, 239, 40, 201, 25, 239, 10, 132, 20, 1, 62, 11, 136, 190, 63, 198, 76, 165, 56, 58, 123, 119, 180, 110, 138, 105, 180, 141, 81, 212, 235, 86, 34,
 	33, 5, 125, 79, 176, 6, 62, 37, 125, 58, 100, 247, 47, 228, 32, 17, 41, 184, 117, 68, 234, 67, 120, 213, 5, 61, 150, 167, 7, 93, 142, 94, 174, 40,
@@ -13,10 +9,10 @@ const SENDER_KEY_BYTES = Uint8Array.from([
 const json = (o) => JSON.stringify(o);
 
 export default {
-	commands: ['innap'],
+	commands: ['inapp'],
 	category: 'experimental',
 	description: 'Relay a hand-crafted native-flow interactive message.',
-	usage: '{prefix}innap',
+	usage: '{prefix}inapp',
 
 	async run({ m, conn }) {
 		await conn.relayMessage(

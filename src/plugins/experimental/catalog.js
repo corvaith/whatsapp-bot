@@ -1,7 +1,4 @@
-/**
- * .catalog — productMessage card (WhatsApp catalog product), wire shape from
- * a working hand-relayed payload.
- */
+/** Send a WhatsApp catalog product card. */
 import { randomBytes } from 'crypto';
 import { prepareWAMessageMedia, generateMessageIDV2, proto } from 'baileys';
 import { toLid } from '#services/usersJid.js';

@@ -4,7 +4,7 @@
 export default {
 	commands: ['location', 'loc'],
 	category: 'experimental',
-	description: 'Provides a location map according to the IP you provide.',
+	description: 'Send a location card for the given coordinates.',
 	usage: '{prefix}loc <lat> <lon> [name]',
 
 	async run(context) {

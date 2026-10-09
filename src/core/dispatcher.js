@@ -66,7 +66,6 @@ export async function handle(conn, m, registry) {
 		}
 	}
 
-	// Saved message keyword: exact match, chat-scoped.
 	const keyword = String(m.body ?? '')
 		.trim()
 		.toLowerCase();

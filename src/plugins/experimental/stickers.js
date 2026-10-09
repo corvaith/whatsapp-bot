@@ -6,10 +6,7 @@ import { writeFile, readFile, unlink } from 'fs/promises';
 import { execFile as execFileCb } from 'child_process';
 import { promisify } from 'util';
 
-/**
- * Helper: build + send a REAL WhatsApp StickerPackMessage (USER_CREATED):
- * stickers + tray zipped (store level 0) and uploaded as 'sticker-pack' media.
- */
+/** Build and send a native USER_CREATED sticker pack message. */
 
 const execFile = promisify(execFileCb);
 
@@ -178,10 +175,7 @@ export async function sendStickerPack(conn, jid, opts) {
 	return fullMsg.key;
 }
 
-/**
- * Anime sticker pack: fetch images, build a REAL WhatsApp StickerPackMessage
- * (USER_CREATED pack zip uploaded as 'sticker-pack' media).
- */
+/** Send a native sticker pack of anime stickers from nekos.best. */
 
 const CATEGORIES = ['neko', 'waifu', 'hug', 'kiss', 'poke', 'smile', 'wave', 'happy', 'noddle'];
 

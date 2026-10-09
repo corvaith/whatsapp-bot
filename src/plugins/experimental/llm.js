@@ -4,7 +4,7 @@
 export default {
 	commands: ['llm'],
 	category: 'experimental',
-	description: 'Ask the local AI model.',
+	description: 'Ask the locally hosted AI model and reply with its answer.',
 	usage: '{prefix}llm <question>',
 	react: '🤔',
 
