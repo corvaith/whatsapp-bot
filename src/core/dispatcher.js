@@ -22,7 +22,7 @@ async function runPlugin(conn, m, registry, plugin, context) {
 
 /**
  * Route one serialized message to plugins. Errors propagate untouched so the
- * caller (events/messages.js) keeps producing user-facing error replies.
+ * caller (src/app/events.js) keeps producing user-facing error replies.
  * @param {import('baileys').WASocket} conn
  * @param {any} m
  * @param {import('./plugin-registry.js').PluginRegistry} registry
