@@ -17,10 +17,7 @@ export const buttons = {
 			.split('|')
 			.map((s) => s.trim())
 			.filter(Boolean);
-<<<<<<< HEAD
 		// Bare invocation renders a default card instead of a usage dump.
-=======
->>>>>>> cdc7915 (refactor: restructure codebase architecture and improve modularity)
 		const [body, ...labels] = parts.length >= 2 ? parts : ['Hello from the bot — pick an option below.', 'Ping', 'Info'];
 		if (labels.length > 3) {
 			return m.reply(`Usage: ${m.prefix}buttons <text> | <button1> | <button2> [| <button3>]`);
@@ -63,6 +60,7 @@ const ALL_BUTTONS = [
 	{ name: 'cta_reminder', buttonParamsJson: json({ display_text: 'Remind Me' }) },
 	{ name: 'cta_cancel_reminder', buttonParamsJson: json({ display_text: 'Cancel Reminder' }) },
 	{ name: 'send_location', buttonParamsJson: '{}' },
+	{ name: 'request_contact_info', buttonParamsJson: '{}' },
 	{ name: 'address_message', buttonParamsJson: '{}' },
 	{
 		name: 'mpm',
