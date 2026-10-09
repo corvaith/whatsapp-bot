@@ -1,7 +1,7 @@
 import { test, expect } from 'bun:test';
 import { makeConn, makeM, wait, normalize } from '../helpers/harness.js';
 import { handle } from '../helpers/entry.js';
-import { config } from '../../src/config/environment.js';
+import { config } from '../../src/config.js';
 
 test('.ping: react then reply, text format', async () => {
 	const conn = makeConn();
@@ -22,7 +22,6 @@ test('.PING uppercase still matches', async () => {
 });
 
 test('.help: registry-driven, grouped, owner commands hidden for non-owner', async () => {
-	// owner view
 	const conn = makeConn();
 	await handle(conn, makeM(conn, { body: '.help' }));
 	const ownerText = conn.calls[0].payload;
@@ -37,7 +36,6 @@ test('.help: registry-driven, grouped, owner commands hidden for non-owner', asy
 	expect(ownerText).toContain('.exec');
 	expect(ownerText).toContain('Available Commands');
 
-	// non-owner view: owner section hidden
 	config.bot.publicMode = true;
 	try {
 		const conn2 = makeConn();

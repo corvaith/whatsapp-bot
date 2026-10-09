@@ -1,8 +1,8 @@
 process.env.OWNER_NUMBER ??= '6285719563093';
 process.env.PAIRING_NUMBER ??= '6285719563093';
 
-import '../../src/config/environment.js';
-import { parseCommand } from '../../src/core/prefix.js';
+import '../../src/config.js';
+import { parseCommand } from '../../src/core/plugins.js';
 
 export function makeConn(overrides = {}) {
 	const calls = [];

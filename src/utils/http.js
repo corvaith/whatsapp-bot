@@ -1,4 +1,4 @@
-import { guardUrl } from './net-guard.js';
+import { guardUrl } from './network.js';
 
 /**
  * Native-fetch HTTP client with byte limits, manual redirects and SSRF guard.

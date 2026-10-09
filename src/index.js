@@ -1,7 +1,6 @@
-import './config/environment.js';
-import { config, validateConfig } from './config/environment.js';
-import { loadPlugins } from './core/plugin-loader.js';
-import { startBot } from './app/create-bot.js';
+import { config, validateConfig } from './config.js';
+import { loadPlugins } from './app/plugins.js';
+import { startBot } from './app/bot.js';
 
 validateConfig();
 

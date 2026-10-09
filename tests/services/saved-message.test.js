@@ -1,5 +1,5 @@
 import { test, expect } from 'bun:test';
-import * as savedMessage from '../../src/services/saved-message.js';
+import * as savedMessage from '../../src/services/savedMessage.js';
 
 const CHAT = '120363410999999999@g.us';
 
@@ -15,7 +15,7 @@ test('save + lookup text message', async () => {
 	expect(entry.id).toMatch(/^SM-[0-9A-F]{4}$/);
 	savedMessage.setKeyword(entry.id, 'quote');
 	expect(savedMessage.findByKeyword(CHAT, 'quote')?.id).toBe(entry.id);
-	expect(savedMessage.findByKeyword('other@g.us', 'quote')).toBeUndefined(); // chat isolation
+	expect(savedMessage.findByKeyword('other@g.us', 'quote')).toBeUndefined();
 	await savedMessage.remove(entry.id);
 	expect(savedMessage.get(entry.id)).toBeUndefined();
 });
@@ -24,7 +24,6 @@ test('duplicate keyword is detectable before save', async () => {
 	const a = await savedMessage.save({ chatId: CHAT, ownerId: 'x', m: { type: 'conversation', quoted: { type: 'conversation', message: { conversation: 'a' }, body: 'a' } } });
 	savedMessage.setKeyword(a.id, 'dup');
 	expect(savedMessage.findByKeyword(CHAT, 'dup')).toBeDefined();
-	// second save with same keyword must be rejected by plugin layer, not silently overwrite
 	await savedMessage.remove(a.id);
 });
 
@@ -49,7 +48,7 @@ test('media save writes file and remove deletes it (no orphans)', async () => {
 	const p = (await import('path')).join(process.cwd(), entry.mediaPath);
 	expect(existsSync(p)).toBe(true);
 	await savedMessage.remove(entry.id);
-	expect(existsSync(p)).toBe(false); // orphan cleanup
+	expect(existsSync(p)).toBe(false);
 });
 
 test('remove returns false for unknown ID', async () => {

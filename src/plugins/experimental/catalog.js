@@ -4,7 +4,8 @@
  */
 import { randomBytes } from 'crypto';
 import { prepareWAMessageMedia, generateMessageIDV2, proto } from 'baileys';
-import { resolveMedia, BANNER_IMAGE } from './_assets.js';
+import { toLid } from '#services/usersJid.js';
+import { resolveMedia, BANNER_IMAGE } from './assets.js';
 
 export default {
 	commands: ['catalog'],
@@ -37,7 +38,7 @@ export default {
 						title,
 						productImageCount: 1,
 					},
-					businessOwnerJid: m.sender.replace('@s.whatsapp.net', '@lid'),
+					businessOwnerJid: toLid(m.sender),
 					contextInfo: {
 						expiration: 7776000,
 						disappearingMode: { initiator: 0, trigger: 1, initiatedByMe: false },

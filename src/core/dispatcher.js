@@ -1,11 +1,11 @@
 import { createHash } from 'crypto';
-import { config } from '#config/environment.js';
+import { config } from '#config.js';
 
-import { refreshPlugins } from './plugin-loader.js';
+import { refreshPlugins } from './plugins.js';
 import { createContext } from './context.js';
-import { findByStickerHash, expiresAt } from '#services/custom-command.js';
-import * as savedMessage from '#services/saved-message.js';
-import * as analytics from '#services/group-analytics.js';
+import { findByStickerHash, expiresAt } from '#services/commands.js';
+import * as savedMessage from '#services/savedMessage.js';
+import * as analytics from '#services/groupAnalytics.js';
 
 const isExpired = (entry) => expiresAt(entry) < Date.now();
 const stickerHash = (buf) => createHash('sha256').update(buf).digest('hex');
@@ -29,7 +29,6 @@ async function runPlugin(conn, m, registry, plugin, context) {
  */
 export async function handle(conn, m, registry) {
 	if (m.isBot) return;
-	// Analytics runs off the command path: pure aggregate upsert, no media IO.
 	analytics.record(m);
 	analytics.prune();
 
@@ -48,8 +47,6 @@ export async function handle(conn, m, registry) {
 		}
 	}
 
-	// Custom sticker trigger: hash sticker media, look up binding, execute with
-	// full access checks so owner-only targets stay protected.
 	if (m.type === 'stickerMessage') {
 		try {
 			const buf = await m.download();
@@ -69,7 +66,10 @@ export async function handle(conn, m, registry) {
 		}
 	}
 
+<<<<<<< HEAD
 	// Saved message keyword: exact match, chat-scoped.
+=======
+>>>>>>> cdc7915 (refactor: restructure codebase architecture and improve modularity)
 	const keyword = String(m.body ?? '')
 		.trim()
 		.toLowerCase();

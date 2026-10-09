@@ -6,4 +6,3 @@ data/
 *.db-shm
 *.log
 bot-backup*/
-.github/

@@ -1,8 +1,8 @@
 import { fileTypeFromBuffer } from 'file-type';
 import { request } from '#utils/http.js';
-import { tokenize, splitOption } from '#utils/args.js';
+import { tokenize, splitOption } from '#utils/arguments.js';
 import { truncate, formatSize } from '#utils/format.js';
-import { MAX_FETCH_BYTES } from '#config/constants.js';
+import { MAX_FETCH_BYTES } from '#config.js';
 
 const METHODS = new Set(['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD']);
 const URL_RE = /https?:\/\/[^\s<>"')\]]+/i;
@@ -89,7 +89,7 @@ function buildBody(options) {
 	const body = {};
 	for (const item of raw) {
 		const sep = item.includes(':') ? ':' : item.includes('=') ? '=' : null;
-		if (!sep) return item; // not k:v / k=v → send verbatim
+		if (!sep) return item;
 		const idx = item.indexOf(sep);
 		body[item.slice(0, idx).trim()] = item.slice(idx + 1).trim();
 	}
@@ -126,7 +126,6 @@ export default {
 
 		const source = (rawText && rawText.trim()) || (text && URL_RE.test(text) && text) || '';
 		const cleaned = source.replace(/^curl\s+/i, '').replace(/\\\n/g, ' ');
-		// Raw JSON body may contain spaces/braces that confuse the tokenizer — pull it out first.
 		const rawJsonMatch = /(?:--data|-d)\s+([\[{][\s\S]*)$/.exec(cleaned);
 		const tokens = tokenize(rawJsonMatch ? cleaned.slice(0, rawJsonMatch.index) : cleaned);
 		const parsed = parseOptions(tokens);
@@ -134,7 +133,6 @@ export default {
 		const options = parsed.value;
 		if (rawJsonMatch) {
 			options.raw = [rawJsonMatch[1].trim()];
-			// drop scattered JSON tokens from urls
 			options.urls = options.urls.filter((u) => /^https?:\/\//i.test(u) || !/^[[{\]}",:]/.test(u));
 		}
 

@@ -1,5 +1,5 @@
 import { test, expect, beforeEach } from 'bun:test';
-import { parseCommand, getPrefixes, validatePrefix, setRuntimePrefixes, DEFAULT_PREFIXES } from '../../src/core/prefix.js';
+import { parseCommand, getPrefixes, validatePrefix, setRuntimePrefixes, DEFAULT_PREFIXES } from '../../src/core/plugins.js';
 
 beforeEach(() => setRuntimePrefixes(null));
 
@@ -16,11 +16,9 @@ test('default: . ! / all match', () => {
 });
 
 test('trigger bodies behave like the old parser', () => {
-	// '>' is not in DEFAULT_PREFIXES → prefix stays ''
 	const gt = parseCommand('> 1+1');
 	expect(gt.prefix).toBe('');
 	expect(gt.args).toEqual(['1+1']);
-	// '=' is in DEFAULT_PREFIXES (old regex), so '=>' yields prefix '=' + command '>' exactly like before
 	const eq = parseCommand('=> 3*3');
 	expect(eq.prefix).toBe('=');
 	expect(eq.command).toBe('>');

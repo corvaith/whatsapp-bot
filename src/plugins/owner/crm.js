@@ -1,9 +1,8 @@
 import crypto from 'crypto';
 import { proto } from 'baileys';
 
-import crmStore from '#services/crm-store.js';
+import crmStore from '#services/crmStore.js';
 
-// Mirror of serialize.js parseMessage: unwrap viewOnce/protocol/ephemeral shells.
 const parseMessage = (content) => {
 	content = content?.viewOnceMessage?.message ?? content?.ephemeralMessage?.message ?? content?.viewOnceMessageV2?.message ?? content;
 	if (content?.protocolMessage?.editedMessage) content = content.protocolMessage.editedMessage?.message ?? content.protocolMessage.editedMessage;
@@ -39,9 +38,6 @@ export default {
 		const flags = ` ${args.join(' ')} `;
 		const arg0 = args[0] || '';
 
-		// Sticker-trigger case: the sticker message itself is the command, so the
-		// "quoted" target lives on the sticker's contextInfo — promote it so the
-		// rest of the flow treats the sticker as if it were a plain .crm reply.
 		if (command !== 'lastchat' && command !== 'crmstat' && !m.isQuoted && m.type === 'stickerMessage' && m.msg?.contextInfo?.quotedMessage) {
 			m.isQuoted = true;
 			m.quoted = {
@@ -196,8 +192,6 @@ export default {
 
 		if (command === 'crm') {
 			const code = files.relay;
-			// Long payloads break as inline text — default to a properly named
-			// document; -snip opts back into an inline code block.
 			if (flags.includes('-snip')) {
 				if (code.length > 40000) {
 					await m.react('❌').catch(() => {});
@@ -264,8 +258,6 @@ const getNodeContent = (node) => (node && Array.isArray(node.content) ? node.con
 const filterAdditionalNodes = (nodes) => (nodes || []).filter((v) => !IGNORED_TAGS.has(v?.tag));
 
 function getRelayOptions(node = null) {
-	// This fork hard-rejects every additionalAttributes key (assertSupportedAttributes),
-	// so only node content is forwarded; attrs live on inside the saved nodes.
 	const additionalNodes = filterAdditionalNodes(getNodeContent(node));
 	const options = {};
 	if (additionalNodes.length) options.additionalNodes = additionalNodes;
@@ -501,7 +493,6 @@ function attachChildren(base, tree) {
 }
 
 function crmStoreQuery(sql) {
-	// The store module owns the connection; reuse it for the ad-hoc queries.
 	return crmStore.db.query(sql);
 }
 
@@ -578,8 +569,6 @@ const indentBlock = (str, level = 1) => {
 		.join('\n');
 };
 
-// JSON → JS object literal, with embedded JSON strings (buttonParamsJson,
-// unifiedResponse) expanded into inline Buffer/JSON.stringify expressions.
 function stringifySnippet(obj) {
 	const raws = [];
 	const json = JSON.stringify(

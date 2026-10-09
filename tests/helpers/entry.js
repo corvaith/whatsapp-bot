@@ -1,4 +1,4 @@
-import { loadPlugins } from '../../src/core/plugin-loader.js';
+import { loadPlugins } from '../../src/core/plugins.js';
 
 let ready;
 let registry;

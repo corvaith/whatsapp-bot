@@ -6,7 +6,7 @@ export default {
 	usage: '{prefix}prefix',
 
 	async run({ m, prefix }) {
-		const { getPrefixes } = await import('#core/prefix.js');
+		const { getPrefixes } = await import('#core/plugins.js');
 		await m.reply(
 			`Active prefixes: ${getPrefixes()
 				.map((p) => `\`${p}\``)

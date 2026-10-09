@@ -1,5 +1,5 @@
-import { settings } from '#storage/settings.js';
-import { validatePrefix, setRuntimePrefixes } from '#core/prefix.js';
+import { settings } from '#services/storage.js';
+import { validatePrefix, setRuntimePrefixes } from '#core/plugins.js';
 
 const GLOBAL_KEY = 'prefix.global';
 

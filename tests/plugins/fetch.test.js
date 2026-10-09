@@ -2,8 +2,8 @@ import { test, expect, mock } from 'bun:test';
 import { makeConn, makeM } from '../helpers/harness.js';
 import { handle } from '../helpers/entry.js';
 import { request } from '../../src/utils/http.js';
-import { tokenize } from '../../src/utils/args.js';
-import { guardUrl } from '../../src/utils/net-guard.js';
+import { tokenize } from '../../src/utils/arguments.js';
+import { guardUrl } from '../../src/utils/network.js';
 
 const realFetch = globalThis.fetch;
 function mockFetch(handler) {

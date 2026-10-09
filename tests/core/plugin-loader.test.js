@@ -2,8 +2,8 @@ import { test, expect, beforeEach, afterAll } from 'bun:test';
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync, utimesSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
-import { PluginRegistry } from '../../src/core/plugin-registry.js';
-import { loadPlugins, hotReload } from '../../src/core/plugin-loader.js';
+import { PluginRegistry } from '../../src/core/plugins.js';
+import { loadPlugins, hotReload } from '../../src/core/plugins.js';
 
 let dir;
 let cwd;
@@ -53,7 +53,6 @@ test('hot reload: change, add, remove; failed syntax keeps previous version', as
 	const registry = await loadPlugins(undefined, join(dir, 'plugins'));
 	expect(registry.findCommand('ping')).toBeTruthy();
 
-	// change command (mtime must differ)
 	writeFileSync(p, 'export default { commands:["pong"], description:"d", run(){} }');
 	utimesSync(p, new Date(Date.now() + 5000), new Date(Date.now() + 5000));
 	hotReload.lastCheck = 0;
@@ -61,7 +60,6 @@ test('hot reload: change, add, remove; failed syntax keeps previous version', as
 	expect(registry.findCommand('ping')).toBeUndefined();
 	expect(registry.findCommand('pong')).toBeTruthy();
 
-	// syntax error keeps previous version
 	utimesSync(p, new Date(Date.now() + 6000), new Date(Date.now() + 6000));
 	writeFileSync(p, 'export default { commands: [broken');
 	const before = registry.findCommand('pong');
@@ -69,7 +67,6 @@ test('hot reload: change, add, remove; failed syntax keeps previous version', as
 	await hotReload(registry, join(dir, 'plugins'));
 	expect(registry.findCommand('pong')).toBe(before);
 
-	// delete file
 	rmSync(p);
 	hotReload.lastCheck = 0;
 	await hotReload(registry, join(dir, 'plugins'));
@@ -82,7 +79,6 @@ test('help auto-discovers a newly added plugin', async () => {
 	let groups = registry.getVisibleCommands({ isOwner: false });
 	expect(groups.get('general').some((c) => c.name === 'ping')).toBe(true);
 
-	// add compress.js -> appears without code changes
 	const p = write('media/compress.js', 'export default { commands:["compress"], category:"media", description:"Compress media.", run(){} }');
 	registry.replace(p, (await import(`${p}?t=${Date.now()}`)).default, 1);
 	groups = registry.getVisibleCommands({ isOwner: false });

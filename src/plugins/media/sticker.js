@@ -1,6 +1,6 @@
 import { fileTypeFromBuffer } from 'file-type';
-import { createSticker, isAnimated } from '#utils/sticker.js';
-import { getMediaBuffer } from '../media/_shared.js';
+import { createSticker, isAnimated } from '#utils/media.js';
+import { getMediaBuffer } from './mediaHelpers.js';
 import { request } from '#utils/http.js';
 
 const URL_RE = /https?:\/\/[^\s<>"')\]]+/i;

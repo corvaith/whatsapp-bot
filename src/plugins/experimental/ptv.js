@@ -10,7 +10,7 @@ export default {
 	async run(context) {
 		const { m, quoted, downloadMedia } = context;
 		const source = m.isQuoted ? m.quoted : m;
-		if (!source?.isMedia || !(source.mime || '').startsWith('video/')) {
+		if (!source?.isMedia || !(source?.msg?.mimetype || '').startsWith('video/')) {
 			return m.reply('Send or reply to a video with .ptv (mp4/webm).');
 		}
 		const buffer = await downloadMedia();

@@ -1,5 +1,5 @@
 import { test, expect } from 'bun:test';
-import { createSticker, isAnimated, writeExifWebp, buildExif } from '../../src/utils/sticker.js';
+import { createSticker, isAnimated, writeExifWebp, buildExif } from '../../src/utils/media.js';
 import { execFileSync } from 'node:child_process';
 import { uguu, tmpfiles, upload } from '../../src/services/uploader.js';
 
@@ -68,8 +68,8 @@ test('injectExif: VP8X first, EXIF last, RIFF size correct, alpha/anim flags int
 	expect(chunks.startsWith('VP8X')).toBe(true);
 	expect(chunks.endsWith('EXIF')).toBe(true);
 	const flags = execFileSync('python3', ['-c', "b=open('/tmp/skchunk-out.webp','rb').read(); print(b[20])"]).toString().trim();
-	expect(Number(flags) & 0x02).toBeTruthy(); // animation
-	expect(Number(flags) & 0x08).toBeTruthy(); // exif declared
+	expect(Number(flags) & 0x02).toBeTruthy();
+	expect(Number(flags) & 0x08).toBeTruthy();
 	const [frames] = frameInfo('/tmp/skchunk-out.webp');
 	expect(Number(frames)).toBeGreaterThan(1);
 }, 60000);

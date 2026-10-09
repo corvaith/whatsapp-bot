@@ -15,7 +15,7 @@ export default {
 		const categories = [...groups.keys()].sort((a, b) => collator.compare(a, b));
 
 		const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-		const { getPrefixes } = await import('#core/prefix.js');
+		const { getPrefixes } = await import('#core/plugins.js');
 		const prefix = m.prefix || getPrefixes()[0] || '.';
 		let response = '';
 

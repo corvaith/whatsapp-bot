@@ -4,12 +4,13 @@
 	"main": "index.js",
 	"type": "module",
 	"imports": {
-		"#config/*": "./src/config/*",
+		"#config.js": "./src/config.js",
+		"#database.js": "./src/database.js",
+		"#logger.js": "./src/logger.js",
+		"#app/*": "./src/app/*",
 		"#core/*": "./src/core/*",
-		"#events/*": "./src/events/*",
 		"#plugins/*": "./src/plugins/*",
 		"#services/*": "./src/services/*",
-		"#storage/*": "./src/storage/*",
 		"#utils/*": "./src/utils/*",
 		"#whatsapp/*": "./src/whatsapp/*"
 	},
@@ -20,7 +21,11 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check ."
 	},
-	"keywords": ["WhatsApp Bot", "Baileys", "WhatsApp"],
+	"keywords": [
+		"WhatsApp Bot",
+		"Baileys",
+		"WhatsApp"
+	],
 	"author": "corvaith",
 	"license": "ISC",
 	"description": "",

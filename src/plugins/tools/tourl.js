@@ -1,6 +1,6 @@
 import { upload, providers } from '#services/uploader.js';
-import { getMediaBuffer } from '../media/_shared.js';
-import { URL_RE } from './_tools.js';
+import { getMediaBuffer } from '../media/mediaHelpers.js';
+const URL_RE = /https?:\/\/[^\s<>"')\]]+/i;
 
 const HELP = (prefix) =>
 	`*${prefix}tourl [provider]* — upload media, get a link\n\n` + `Reply to media or send media with this caption.\nProviders: ${Object.keys(providers).join(', ')} (default uguu).`;

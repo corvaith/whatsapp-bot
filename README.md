@@ -32,7 +32,6 @@ project dependencies, and asks for your pairing/owner numbers on first run.
 | `PAIRING_NUMBER`   | yes      | WhatsApp number used to request the pairing code         |
 | `OWNER_NUMBER`     | yes      | Bot owner number(s), comma-separated, no leading +       |
 | `PUBLIC_MODE`      | no       | `true` lets anyone use public commands (default `false`) |
-| `PIXELYTE_API_URL` | no       | Pixelyte API base URL                                    |
 | `NODE_ENV`         | no       | `development` enables plugin hot reload                  |
 | `TZ`               | no       | Application timezone                                     |
 
@@ -40,16 +39,18 @@ project dependencies, and asks for your pairing/owner numbers on first run.
 
 ```
 src/
-├── app/        bot startup and socket lifecycle
-├── config/     environment config and constants
-├── core/       dispatcher, plugin loader, plugin registry
-├── events/     WhatsApp event handlers
-├── plugins/    command and trigger plugins
-├── services/   external API clients (Pixelyte)
-├── storage/    SQLite database and table stores
-├── utils/      formatting, logging helpers
-└── whatsapp/   serialization, auth state, message helpers
+├── app/        bootstrap (bot.js), event registration (events.js), plugin entry (plugins.js)
+├── config.js   environment, constants and response templates
+├── core/       context, dispatcher, plugin infrastructure (plugins.js)
+├── plugins/    command and trigger plugins (general/group/media/owner/tools/experimental)
+├── services/   business logic (groupAdmin, crmStore, storage, savedMessage, ...)
+├── utils/      format, http, media, network, arguments helpers
+├── database.js SQLite connection setup and WAL tuning
+├── logger.js   application-level chalk logger
+└── whatsapp/   Baileys integration (auth.js, messages.js, helpers.js)
 data/           runtime data (auth.db, store.db) — git-ignored
+scripts/        install.sh
+deploy/         systemd units (bot.service, llama.service)
 tests/          bun test suites
 ```
 
@@ -137,6 +138,12 @@ Recovery if a bad prefix is stored: owner triggers `$`/`>` never need a prefix. 
 ```sh
 sqlite3 data/database/store.db "DELETE FROM settings WHERE key='prefix.global'"
 ```
+
+## Groups
+
+`.kick`/`.remove`, `.promote`/`.addadmin`, `.demote`/`.deladmin` — group moderation with pre-flight target validation (membership, current admin status) before the API call; all reply text lives in one `RESPONSES` object in `src/services/group-admin.js`. `.savemsg <keyword>` / `<keyword>` replays saved messages (audio is stored as opus/ogg and replayed as a playable voice note); `.delmsg <keyword>` removes one. `.totalchat` and group analytics power usage stats.
+
+`.stickerpack <name> | <publisher>` (experimental) — builds a real WhatsApp sticker pack: stickers are zipped with base64url sha256 filenames, the tray/thumbnail is derived from the pack's media key, and the pack is relayed as a native `stickerPackMessage` that renders in the client's sticker tray.
 
 ## Tools
 

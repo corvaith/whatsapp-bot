@@ -1,5 +1,5 @@
 import { test, expect } from 'bun:test';
-import * as analytics from '../../src/services/group-analytics.js';
+import * as analytics from '../../src/services/groupAnalytics.js';
 
 const CHAT = '120363410933636228@g.us';
 const mk = (sender, type, chat = CHAT) => ({ isGroup: chat.endsWith('@g.us'), chat, sender, type });
@@ -7,7 +7,6 @@ const mk = (sender, type, chat = CHAT) => ({ isGroup: chat.endsWith('@g.us'), ch
 test('ignores private chats', () => {
 	analytics.record(mk('628xxx@s.whatsapp.net', 'conversation', '628xxx@s.whatsapp.net'));
 	const before = analytics.getStats(CHAT, 'month').messages;
-	// nothing changed — just ensure no throw
 	expect(before).toBeGreaterThanOrEqual(0);
 });
 
@@ -30,7 +29,6 @@ test('aggregates multiple users into totals', () => {
 });
 
 test('classification covers media types', () => {
-	// unique user so prior runs of the shared dev DB don't pollute counts
 	const u = 'u' + Date.now() + '@s.whatsapp.net';
 	analytics.record(mk(u, 'videoMessage'));
 	analytics.record(mk(u, 'audioMessage'));

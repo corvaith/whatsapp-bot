@@ -1,5 +1,5 @@
-import { config } from '#config/environment.js';
-import { saveMode } from '#services/bot-mode.js';
+import { config } from '#config.js';
+import { saveMode } from '#services/botMode.js';
 
 /**
  * Toggle bot access mode at runtime: .mode public | .mode self.

@@ -11,7 +11,7 @@ function resolveTarget({ m, args, conn }) {
 	const arg = args[0]?.toLowerCase();
 	if (arg === 'me') return m.sender;
 	if (arg && /^\+?\d{7,15}$/.test(arg.replace(/\D/g, ''))) return `${arg.replace(/\D/g, '')}@s.whatsapp.net`;
-	if (arg && arg !== 'me') return null; // unknown argument
+	if (arg && arg !== 'me') return null;
 	return m.isGroup ? m.sender : m.chat;
 }
 
@@ -38,7 +38,6 @@ export default {
 			const url = await conn.profilePictureUrl(jid, 'image');
 			if (!url) throw new Error('not found');
 			await m.reply({ image: { url }, caption: `Profile picture of ${label}`, mentions });
-			// Business info is best-effort; never fails the picture reply.
 			try {
 				const biz = await conn.getBusinessProfile(jid);
 				if (biz && typeof biz === 'object' && Object.keys(biz).length) {
