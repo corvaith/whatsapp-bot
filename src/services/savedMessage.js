@@ -18,7 +18,7 @@ const toOpusOgg = async (buf) => {
 	try {
 		await writeFile(input, buf);
 		await new Promise((resolve, reject) => {
-			execFile('ffmpeg', ['-y', '-i', input, '-avoid_negative_ts', 'make_zero', '-ac', '1', '-c:a', 'libopus', output], { timeout: 60000 }, (err) => (err ? reject(err) : resolve()));
+			execFile('ffmpeg', ['-y', '-vn', '-i', input, '-avoid_negative_ts', 'make_zero', '-ac', '1', '-c:a', 'libopus', output], { timeout: 60000 }, (err) => (err ? reject(err) : resolve()));
 		});
 		return await readFile(output);
 	} finally {
@@ -87,7 +87,9 @@ export async function save({ chatId, ownerId, m }) {
 		}
 		const declaredMime = q.msg?.mimetype;
 		const sniffed = await mimeFromBuffer(buf);
-		const mime = declaredMime && declaredMime !== sniffed.mime ? declaredMime : sniffed.mime;
+		const declaredFamily = declaredMime?.split('/')[0];
+		const sniffedFamily = sniffed.mime?.split('/')[0];
+		const mime = declaredMime && declaredFamily === sniffedFamily ? declaredMime : sniffed.mime;
 		const ext = MEDIA_EXT[sniffed.mime] ?? sniffed.ext;
 
 		const id = genId();

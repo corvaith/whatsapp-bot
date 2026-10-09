@@ -29,7 +29,7 @@ export default {
 		try {
 			await writeFile(input, buffer);
 			await new Promise((resolve, reject) => {
-				execFile('ffmpeg', ['-y', '-i', input, '-avoid_negative_ts', 'make_zero', '-ac', '1', '-c:a', 'libopus', output], { timeout: 60000 }, (err) => (err ? reject(err) : resolve()));
+				execFile('ffmpeg', ['-y', '-vn', '-i', input, '-avoid_negative_ts', 'make_zero', '-ac', '1', '-c:a', 'libopus', output], { timeout: 60000 }, (err) => (err ? reject(err) : resolve()));
 			});
 			const ogg = await readFile(output);
 			const playable = repacketizeOggOpusToCode3(ogg);
