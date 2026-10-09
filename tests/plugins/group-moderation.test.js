@@ -1,6 +1,7 @@
 import { test, expect, beforeEach } from 'bun:test';
 import { makeConn, makeM } from '../helpers/harness.js';
-import { invalidateGroupMeta, RESPONSES } from '../../src/services/groupAdmin.js';
+import { invalidateGroupMeta } from '../../src/services/groupAdmin.js';
+import { RESPONSES } from '../../src/config.js';
 import { clearMappings } from '../../src/services/usersJid.js';
 
 beforeEach(() => {

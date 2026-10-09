@@ -68,7 +68,7 @@ export const MAX_FETCH_BYTES = 20 * 1024 * 1024;
  */
 export const RESPONSES = {
 	groupOnly: 'This command can only be used in a group.',
-	botNotAdmin: 'I need to be an admin to do that.',
+	botNotAdmin: 'I need to be a group admin to do that.',
 	notAdmin: 'Only group admins can use this command.',
 	noTarget: 'Mention or reply to the member, or pass a number. Usage: {usage}',
 	selfTarget: "That's me — I won't do that to myself.",

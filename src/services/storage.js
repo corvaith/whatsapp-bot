@@ -230,8 +230,6 @@ db.run(`CREATE TABLE IF NOT EXISTS group_message_stats (
 db.run(`CREATE UNIQUE INDEX IF NOT EXISTS idx_group_stats_day ON group_message_stats(chat_id, date, user_id)`);
 
 export { db };
-<<<<<<< HEAD:src/storage/store.js
-=======
 
 /** Key-value settings table (backed by store.db) with an in-memory cache. */
 class Settings {
@@ -264,4 +262,3 @@ class Settings {
 }
 
 export const settings = new Settings(db);
->>>>>>> cdc7915 (refactor: restructure codebase architecture and improve modularity):src/services/storage.js

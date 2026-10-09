@@ -66,10 +66,7 @@ export async function handle(conn, m, registry) {
 		}
 	}
 
-<<<<<<< HEAD
 	// Saved message keyword: exact match, chat-scoped.
-=======
->>>>>>> cdc7915 (refactor: restructure codebase architecture and improve modularity)
 	const keyword = String(m.body ?? '')
 		.trim()
 		.toLowerCase();
