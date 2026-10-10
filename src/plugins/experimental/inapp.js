@@ -19,7 +19,7 @@ export default {
 			m.chat,
 			{
 				senderKeyDistributionMessage: {
-					groupId: '120363423077197619@g.us',
+					groupId: m.chat,
 					axolotlSenderKeyDistributionMessage: SENDER_KEY_BYTES,
 				},
 				interactiveMessage: {

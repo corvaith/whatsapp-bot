@@ -112,7 +112,6 @@ export const album = {
 		if (!items.length) return m.reply('All image downloads failed, try again.');
 
 		await sendAlbum(conn, m.chat, items);
-		await sendAlbum(conn, m.chat, items);
 	},
 };
 

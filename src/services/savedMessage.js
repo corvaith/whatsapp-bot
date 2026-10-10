@@ -59,7 +59,7 @@ export function listForChat(chatId) {
 
 const genId = () => {
 	for (;;) {
-		const id = 'SM-' + randomBytes(2).toString('hex').toUpperCase();
+		const id = 'SM-' + randomBytes(12).toString('base64url');
 		if (!savedMessages.get(id)) return id;
 	}
 };

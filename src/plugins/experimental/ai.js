@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { generateMessageIDV2, proto } from 'baileys';
+import { SQUARE_IMAGE } from './assets.js'
 /** Send a Meta AI style entity card built from AIRich compact-entity primitives. */
 
 const section = (primitives, layout = 'GenAIActionRowLayoutViewModel') => ({

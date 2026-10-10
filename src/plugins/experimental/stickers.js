@@ -1,4 +1,6 @@
 import { request } from '#utils/http.js';
+import { generateMessageIDV2, proto } from 'baileys';
+import { zipSync } from 'fflate';
 import { createHash, createCipheriv, createHmac, hkdfSync, randomBytes } from 'crypto';
 import { tmpdir } from 'os';
 import { join } from 'path';

@@ -1,5 +1,5 @@
 import { decryptPollVote } from 'baileys/lib/Utils/process-message.js';
-import { jidNormalizedUser } from 'baileys/lib/WABinary/index.js';
+import { DisconnectReason, jidNormalizedUser } from 'baileys';
 import { format } from 'util';
 
 import { handle } from '#core/dispatcher.js';

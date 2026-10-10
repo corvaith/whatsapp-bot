@@ -10,6 +10,9 @@ import makeWASocket, {
 	isPnUser,
 	isLidUser,
 	Browsers,
+	hmacSign,
+	aesDecryptGCM,
+	normalizeMessageContent,
 } from 'baileys';
 
 import { parseCommand } from '#core/plugins.js';
