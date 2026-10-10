@@ -12,7 +12,7 @@ import { config } from '#config.js';
 import { MTIME_THROTTLE_MS } from '#config.js';
 import { relative } from 'path';
 import { readdirSync, statSync } from 'fs';
-import { join } from 'path';
+import { basename, join, resolve, sep } from 'path';
 
 export const DEFAULT_PREFIXES = ['°', '•', 'π', '÷', '×', '¶', '∆', '£', '¢', '€', '¥', '®', '™', '+', '✓', '=', '|', '/', '~', '!', '?', '@', '#', '%', '^', '&', '.', '©'];
 
@@ -217,6 +217,16 @@ export class PluginRegistry {
 	}
 }
 
+/** Sanitize a candidate plugin directory path to an absolute, resolved form. */
+function sanitizeDirPath(input) {
+	return resolve(String(input ?? ''));
+}
+
+/** Sanitize a directory entry name, stripping any path segments so it cannot escape `root`. */
+function sanitizeEntryName(name) {
+	return basename(String(name ?? ''));
+}
+
 /** Recursively list plugin files; `_`-prefixed files/folders are shared helpers, not plugins. */
 export function scanPluginFiles(dir = join(process.cwd(), 'src/plugins')) {
 	const out = [];
@@ -226,9 +236,12 @@ export function scanPluginFiles(dir = join(process.cwd(), 'src/plugins')) {
 	} catch {
 		return out;
 	}
+	const root = sanitizeDirPath(dir);
 	for (const name of entries) {
 		if (name.startsWith('_')) continue;
-		const full = join(dir, name);
+		const safeName = sanitizeEntryName(name);
+		const full = join(root, safeName);
+		if (!full.startsWith(root + sep)) continue;
 		if (statSync(full).isDirectory()) out.push(...scanPluginFiles(full));
 		else if (name.endsWith('.js')) out.push(full);
 	}
