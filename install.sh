@@ -47,7 +47,11 @@ install_bun() {
   fi
   info "Bun not found, installing"
   command -v unzip >/dev/null 2>&1 || install_packages
-  curl -fsSL https://bun.sh/install | bash
+  local bun_installer
+  bun_installer="$(mktemp)"
+  curl -fsSL https://bun.sh/install -o "$bun_installer"
+  bash "$bun_installer"
+  rm -f "$bun_installer"
   BUN_BIN="${BUN_INSTALL:-$HOME/.bun}/bin/bun"
   [ -x "$BUN_BIN" ] || fail "Bun installation failed"
   info "Bun installed: $("$BUN_BIN" --version)"
