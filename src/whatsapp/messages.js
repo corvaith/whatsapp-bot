@@ -9,6 +9,7 @@ import makeWASocket, {
 	isJidGroup,
 	isPnUser,
 	isLidUser,
+	proto,
 	Browsers,
 	hmacSign,
 	aesDecryptGCM,
