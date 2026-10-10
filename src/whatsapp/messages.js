@@ -21,9 +21,27 @@ import { parseCommand } from '#core/plugins.js';
 import { fileTypeFromBuffer } from 'file-type';
 import fs from 'fs';
 import path from 'path';
+import dns from 'node:dns';
+import net from 'node:net';
 
 import { createChalkLogger } from '#logger.js';
 import { isLid as isLidJid, linkJids } from '#services/usersJid.js';
+
+const isPrivateAddress = (ip) => {
+	if (net.isIPv4(ip)) {
+		const [a, b] = ip.split('.').map(Number);
+		return a === 10 || a === 127 || a === 0 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168);
+	}
+	const lower = ip.toLowerCase();
+	return lower === '::1' || lower.startsWith('fe80:') || lower.startsWith('fc') || lower.startsWith('fd') || lower.startsWith('::ffff:127.') || lower.startsWith('::ffff:169.254.');
+};
+
+const assertPublicUrl = async (url) => {
+	const { hostname, protocol } = new URL(url);
+	if (protocol !== 'http:' && protocol !== 'https:') throw new Error('Unsupported URL protocol');
+	const { address } = await dns.promises.lookup(hostname);
+	if (isPrivateAddress(address)) throw new Error('Refusing to fetch internal/private address');
+};
 
 export default async function (connectionOptions) {
 	const conn = makeWASocket({
